@@ -1,0 +1,28 @@
+{
+"data" : [
+    {
+        "image" : "/images/item1.jpg",
+        "title": "Grey hoodie",
+        "price": "$18.00",
+        "type": "Dog"
+    },
+    {
+        "image" : "/images/item2.jpg",
+        "title": "Hoodie",
+        "price": "$38.00",
+        "type": "Dog"
+    },
+    {
+        "image" : "/images/item3.jpg",
+        "title": "Grey",
+        "price": "$28.00",
+        "type": "Dog"
+    },
+    {
+        "image" : "/images/item4.jpg",
+        "title": "Hoodie Grey",
+        "price": "$15.00",
+        "type": "Dog"
+    }
+]
+}

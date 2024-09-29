@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import Nav from "@/modules/layout/templates/header/index"
+import NavMobile from "@/modules/layout/templates/header/index-mobile"
+import Footer from "@/modules/layout/templates/footer/index";
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -11,6 +15,18 @@ const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
+});
+
+const geistChilanka = localFont({
+  src: "./fonts/Chilanka-Regular.woff",
+  variable: "--font-geist-chilanka",
+  weight: "100 900",
+});
+
+const geistMontserrat = localFont({
+  src: "./fonts/Montserrat-Black.woff",
+  variable: "--font-geist-montserrat",
+  // weight: "100 900",
 });
 
 export const metadata: Metadata = {
@@ -26,9 +42,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${geistChilanka.variable}  ${geistMontserrat.variable} antialiased`}
       >
+        <Nav></Nav>
+        <NavMobile></NavMobile>
+        
         {children}
+        <Footer></Footer>
       </body>
     </html>
   );
