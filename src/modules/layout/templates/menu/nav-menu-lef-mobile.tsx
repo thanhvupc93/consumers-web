@@ -13,7 +13,7 @@ export default function NavLeftMenuMobile() {
                     <g fill='currentColor'>
                         <path d='M6 36c0-4.965 11.993-8 18-8c6.008 0 18 3.035 18 8v6H6z'></path>
                         <path
-                            fill-rule='evenodd'
+                            fillRule='evenodd'
                             d='M24 26c5.523 0 10-4.477 10-10S29.523 6 24 6s-10 4.477-10 10s4.477 10 10 10'
                             clipRule='evenodd'
                         ></path>
@@ -51,7 +51,7 @@ export default function NavLeftMenuMobile() {
                 </div>
                 <svg className='mx-4 text-2xl  cursor-pointer'
                     xmlns="http://www.w3.org/2000/svg"
-                    width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0-14 0m18 11l-6-6"></path></svg>
+                    width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0-14 0m18 11l-6-6"></path></svg>
             </div>
         </div>
        

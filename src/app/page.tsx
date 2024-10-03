@@ -1,20 +1,26 @@
-import CategoryProduct from "@/modules/common/components/category-product/index";
 import Slider from "@/modules/common/components/image-slider/index";
 import Category from "@/modules/layout/templates/category/index";
-import DataClothing from "@/../public/data/clothing.json";
 import AllCategory from "@/modules/common/components/all-category";
 import DataAllCategory from "@/../public/data/allCategory.json";
-import DataAllProduct from "@/../public/data/allProduct.json";
+import { ProductType } from "@/types/product";
+import CategoryProduct from "@/modules/layout/templates/category-product";
 
-export default function Home() {
+
+
+export default async function Home() {
+  const allFoods = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products/food`, { method: 'GET' });
+  const foods: ProductType[] = await allFoods.json();
+
+  const allClothings = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products/clothing`, { method: 'GET' });
+  const clothings: ProductType[] = await allClothings.json();
   return (
     <>
       <div className='relative'>
         <Slider width={400} height={300}></Slider>
       </div>
       <Category></Category>
-      <CategoryProduct title="Pet Clothing" data={DataClothing.data} ></CategoryProduct>
-      <AllCategory title="Pet Foodies" data={DataAllProduct.data }  initialTabs={DataAllCategory.allIngredients}></AllCategory>
+      <CategoryProduct title="Pet Clothing" data={clothings} ></CategoryProduct>
+      <AllCategory title="Pet Foodies" data={foods} initialTabs={DataAllCategory.allIngredients}></AllCategory>
     </>
   );
 }

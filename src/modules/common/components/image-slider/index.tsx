@@ -6,6 +6,7 @@ import Image from "next/image";
 import Banner from "@/../public/images/banner-img.png";
 import Banner2 from "@/../public/images/banner-img2.png";
 import Banner3 from "@/../public/images/banner-img3.png";
+import "./styles.css"
 
 const AdaptiveHeight = (slider) => {
     function updateHeight() {
