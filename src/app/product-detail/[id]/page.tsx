@@ -1,24 +1,33 @@
+'use client'
+import Loading from "@/app/loading";
 import HeroContent from "@/modules/common/components/hero-content";
 import SliderThumbnails from "@/modules/common/components/image-thumbnails";
+import { ProductType } from "@/types/product";
+import useSWR from 'swr'
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export default async function ProductDetail() {
+export default function ProductDetail({ params }: { params: { id: string } }) {
+
+    const { data: productDetail, error, isLoading } = useSWR<ProductType>(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${process.env.NEXT_PUBLIC_ALL_PRODUCT_URL}/${params.id}`, fetcher)
+    console.log('url:', `${process.env.NEXT_PUBLIC_BACKEND_URL}/${process.env.NEXT_PUBLIC_ALL_PRODUCT_URL}${params.id}`)
+    if (isLoading) return <Loading></Loading>
     return <>
         <HeroContent></HeroContent>
         <div className="pt-20"></div>
         <main>
             <div className="flex flex-wrap">
-                <div className="  lg:w-[50%]  w-[100%] px-7">
-                    <SliderThumbnails></SliderThumbnails>
+                <div className="lg:w-[50%] w-[100%] px-7">
+                    <SliderThumbnails data={[productDetail.image]} height={740} width={740}></SliderThumbnails>
                 </div>
                 <div className="lg:w-[50%]  w-[100%] px-7">
                     <div className="lg:pt-1 pt-10">
                         <span className='font-normal text-4xl  font-[family-name:var(--font-geist-chilanka)] '>
-                            {" Jump Suit"}
+                            {productDetail.title}
                         </span>
                     </div>
                     <div className="">
                         <span className='lg:pr-3 pr-1 text-[var(--text-orange-color)] font-normal text-4xl  font-[family-name:var(--font-geist-chilanka)] '>
-                            {" $170.00"}
+                            {productDetail.price ? productDetail.price : 0}
                         </span>
                         <span className='line-through decoration-gray-600 font-normal text-xl  font-[family-name:var(--font-geist-chilanka)] '>
                             {" $240.00"}
@@ -26,7 +35,7 @@ export default async function ProductDetail() {
                     </div>
                     <div className="flex flex-wrap pt-10">
                         <span className='lg:pr-3 pr-1 font-normal text-xl  font-[family-name:var(--font-geist-chilanka)] '>
-                            {" Justo, cum feugiat imperdiet nulla molestie ac vulputate scelerisque amet. Bibendum adipiscing platea blandit sit sed quam semper rhoncus. Diam ultrices maecenas consequat eu tortor orci, cras lectus mauris, cras egestas quam venenatis neque."}
+                            {productDetail.description}
                         </span>
 
                     </div>
@@ -97,7 +106,7 @@ export default async function ProductDetail() {
                     </div>
 
                     <div className="flex pt-5">
-                        <span className='lg:pr-3 pr-1 font-normal text-text-[var(--text-o-secondary-color)]  font-[family-name:var(--font-geist-chilanka)] '>
+                        <span className='lg:pr-3 pr-1  font-bold text-2xl  font-[family-name:var(--font-geist-chilanka)] '>
                             {" Category:"}
                         </span>
                         <span className='lg:pr-3 my-auto font-normal text-xl  font-[family-name:var(--font-geist-chilanka)] '>
@@ -106,7 +115,7 @@ export default async function ProductDetail() {
                     </div>
 
                     <div className="flex pt-5">
-                        <span className='lg:pr-3 pr-1  font-normal text-text-[var(--text-o-secondary-color)]  font-[family-name:var(--font-geist-chilanka)] '>
+                        <span className='lg:pr-3 pr-1  font-bold text-2xl  font-[family-name:var(--font-geist-chilanka)] '>
                             {" Tags:"}
                         </span>
                         <span className='lg:pr-3 my-auto font-normal text-xl  font-[family-name:var(--font-geist-chilanka)] '>
@@ -116,6 +125,9 @@ export default async function ProductDetail() {
                     </div>
                 </div>
             </div>
+            {/* <div className="flex">
+                <ProductInfo data={foods} initialTabs={DataAllCategory.allIngredients} ></ProductInfo>
+            </div> */}
         </main>
 
     </>

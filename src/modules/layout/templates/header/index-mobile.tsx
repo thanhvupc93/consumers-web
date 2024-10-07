@@ -11,7 +11,7 @@ export default async function NavMobile() {
           </div>
         </main>
         <div className='mt-3 mb-3bg-bottom border border-[--bs-light-border-subtle]'></div>
-        <div className='relative mt-5  z-50'>
+        <div className='relative align-items-center py-3  z-50'>
           <NavMenuMobile></NavMenuMobile>
         </div>
         

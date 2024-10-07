@@ -3,10 +3,9 @@ import HeroContent from "@/modules/common/components/hero-content";
 import { ProductType } from "@/types/product";
 import ProductsCarouselProps from "@/modules/common/components/products-carousel/index";
 
-export default async function ProductList() {
-    const allClothings = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products/clothing`, { method: 'GET' });
-    const clothings: ProductType[] = await allClothings.json();
-
+export default async function ProductList({ params }: { params: { id: string } }) {
+    const allProduct = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${process.env.NEXT_PUBLIC_PRODUCT_SEARCH_BY_CATEROGY_URL}/${params.id}`, { method: 'GET' });
+    const products: ProductType[] = await allProduct.json();
     return <>
         <HeroContent></HeroContent>
         <div className="pt-10"></div>
@@ -29,7 +28,7 @@ export default async function ProductList() {
                         </div>
                     </div>
                     <div>
-                        <ProductsCarouselProps listsData={clothings} numberItem={3}></ProductsCarouselProps>
+                        <ProductsCarouselProps listsData={products} numberItem={3}></ProductsCarouselProps>
                     </div>
 
                     <div className="flex justify-center  lg:text-5xl text-sm ">

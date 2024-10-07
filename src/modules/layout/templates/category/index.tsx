@@ -1,17 +1,62 @@
-export default async function Category() {
-    return (<>
-        <main className="align-items-center pt-7 pb-5 px-3 py-12 flex flex-wrap  text-[100px] text-[var(--text-orange-color)]">
-            <div className=" lg:w-[20%] w-[33%]  min-h-24 min-w-24 max-h-60 m-w-50 ">
-                <svg className="mx-auto "  xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 256 256"><path fill="currentColor" d="M224 104h-8.37a88 88 0 0 0-175.26 0H32a8 8 0 0 0-8 8a104.35 104.35 0 0 0 56 92.28V208a16 16 0 0 0 16 16h64a16 16 0 0 0 16-16v-3.72A104.35 104.35 0 0 0 232 112a8 8 0 0 0-8-8m-24.46 0h-51.42a71.84 71.84 0 0 1 41.27-29.57A71.45 71.45 0 0 1 199.54 104m-26.06-47.77q2.75 2.25 5.27 4.75a87.92 87.92 0 0 0-49.15 43h-29.5A72.26 72.26 0 0 1 168 56c1.83 0 3.66.09 5.48.23M128 40a72 72 0 0 1 19 2.57A88.36 88.36 0 0 0 83.33 104H56.46A72.08 72.08 0 0 1 128 40m36.66 152a8 8 0 0 0-4.66 7.3v8.7H96v-8.7a8 8 0 0 0-4.66-7.3a88.29 88.29 0 0 1-51-72h175.29a88.29 88.29 0 0 1-50.97 72"></path></svg>
+'use client'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBone, faCat, faShirt, faVolleyball, faBottleDroplet } from "@fortawesome/free-solid-svg-icons";
+import { CategoryType } from "@/types/category";
+import Link from "next/link";
+import { useAllCategoryHomeContex } from "@/hook/context";
+
+function getIdOrTitle(data: CategoryType[], equalTitle: string, title: boolean) {
+    if (data.length > 0) {
+        return title ? data?.filter((i) => i.type == equalTitle)[0].title : data?.filter((i) => i.type == equalTitle)[0].id
+    } else {
+        return ""
+    }
+};
+
+export default function Categories() {
+    const data: CategoryType[] = useAllCategoryHomeContex();
+
+    if (!data) {
+        return <><div>Loading</div></>
+    } else {
+        const cssLabel = "pt-4 text-3xl text-[var(--text-o-secondary-color) font-light font-[family-name:var(--font-geist-chilanka)]";
+        const cssIcon = "lg:w-[250px] lg:h-[170px] w-[120px] h-[70px] text-[var(--text-orange-color)] ";
+
+        return (<>
+            <main className="pt-7 pb-5 px-3 py-12 flex flex-wrap  text-[100px] ">
+                <div className="text-center items-center flex flex-col lg:w-[20%] w-[33%]">
+                    <Link href={`products/${getIdOrTitle(data, 'dog', false)}`} className="flex flex-col">
+                        <FontAwesomeIcon className={cssIcon} icon={faBone} />
+                        <span className={cssLabel}> {getIdOrTitle(data, 'dog', true)}</span>
+                    </Link>
                 </div>
-            <div className="lg:w-[20%] w-[33%] min-h-24 min-w-24">
-                <svg className="mx-auto " xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 256 256"><path fill="currentColor" d="M176 68a12 12 0 1 1-12-12a12 12 0 0 1 12 12m64 12a8 8 0 0 1-3.56 6.66L216 100.28V120a104.11 104.11 0 0 1-104 104H24a16 16 0 0 1-12.49-26l.1-.12L96 96.63V76.89c0-33.42 26.79-60.73 59.71-60.89h.29a60 60 0 0 1 57.21 41.86l23.23 15.48A8 8 0 0 1 240 80m-22.42 0L201.9 69.54a8 8 0 0 1-3.31-4.64A44 44 0 0 0 156 32h-.22C131.64 32.12 112 52.25 112 76.89v22.63a8 8 0 0 1-1.85 5.13L24 208h26.9l70.94-85.12a8 8 0 1 1 12.29 10.24L71.75 208H112a88.1 88.1 0 0 0 88-88V96a8 8 0 0 1 3.56-6.66Z"></path></svg></div>
-            <div className="lg:w-[20%] w-[33%] min-h-24 min-w-24">
-                <svg className="mx-auto" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 256 256"><path fill="currentColor" d="m239.71 125l-16.42-88a16 16 0 0 0-19.61-12.58l-.31.09L150.85 40h-45.7L52.63 24.56l-.31-.09a16 16 0 0 0-19.61 12.58L16.29 125a15.77 15.77 0 0 0 9.12 17.52a16.3 16.3 0 0 0 6.71 1.48a15.5 15.5 0 0 0 7.88-2.16V184a40 40 0 0 0 40 40h96a40 40 0 0 0 40-40v-42.15a15.5 15.5 0 0 0 7.87 2.16a16.3 16.3 0 0 0 6.72-1.47a15.77 15.77 0 0 0 9.12-17.54M32 128l16.43-88L90.5 52.37Zm144 80h-40v-12.69l13.66-13.65a8 8 0 0 0-11.32-11.32L128 180.69l-10.34-10.35a8 8 0 0 0-11.32 11.32L120 195.31V208H80a24 24 0 0 1-24-24v-60.89L107.92 56h40.15L200 123.11V184a24 24 0 0 1-24 24m48-80l-58.5-75.63L207.57 40zm-120 12a12 12 0 1 1-12-12a12 12 0 0 1 12 12m72 0a12 12 0 1 1-12-12a12 12 0 0 1 12 12"></path></svg></div>
-            <div className="lg:w-[20%] w-[50%] min-h-24 min-w-24">
-                <svg className="mx-auto "  xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 256 256"><path fill="currentColor" d="M168 76a12 12 0 1 1-12-12a12 12 0 0 1 12 12m48.72 67.64c-19.37 34.9-55.44 53.76-107.24 56.1l-22 51.41A8 8 0 0 1 80.1 256h-.51a8 8 0 0 1-7.19-5.78l-14.8-51.83l-51.8-14.83a8 8 0 0 1-1-15.05l51.41-22c2.35-51.78 21.21-87.84 56.09-107.22c24.75-13.74 52.74-15.84 71.88-15.18c18.64.64 36 4.27 38.86 6a8 8 0 0 1 2.83 2.83c1.69 2.85 5.33 20.21 6 38.85c.68 19.1-1.41 47.1-15.15 71.85m-55.18 29a52.11 52.11 0 0 1-33.4-44.78a52.09 52.09 0 0 1-44.77-33.39q-10.45 23.79-11.3 57.59a8 8 0 0 1-4.85 7.17l-35.39 15.14l34.45 9.86a8 8 0 0 1 5.49 5.5l9.84 34.44l15.16-35.4a8 8 0 0 1 7.17-4.84q33.77-.81 57.6-11.29m50.88-129.07c-14.15-3-64.1-11-100.3 14.75a81.2 81.2 0 0 0-16 15.07a36 36 0 0 0 39.35 38.44a8 8 0 0 1 8.73 8.73a36 36 0 0 0 38.47 39.34a80.8 80.8 0 0 0 15-16c25.75-36.17 17.75-86.16 14.75-100.33"></path></svg></div>
-            <div className="lg:w-[20%] w-[50%] min-h-24 min-w-24">
-                <svg className="mx-auto "  xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 256 256"><path fill="currentColor" d="M96 140a12 12 0 1 1-12-12a12 12 0 0 1 12 12m76-12a12 12 0 1 0 12 12a12 12 0 0 0-12-12m60-80v88c0 52.93-46.65 96-104 96S24 188.93 24 136V48a16 16 0 0 1 27.31-11.31c.14.14.26.27.38.41L69 57a111.22 111.22 0 0 1 118.1 0l17.21-19.9c.12-.14.24-.27.38-.41A16 16 0 0 1 232 48m-16 0l-21.56 24.8a8 8 0 0 1-10.81 1.2A89 89 0 0 0 168 64.75V88a8 8 0 1 1-16 0V59.05a97.4 97.4 0 0 0-16-2.72V88a8 8 0 1 1-16 0V56.33a97.4 97.4 0 0 0-16 2.72V88a8 8 0 1 1-16 0V64.75A89 89 0 0 0 72.37 74a8 8 0 0 1-10.81-1.17L40 48v88c0 41.66 35.21 76 80 79.67v-20.36l-13.66-13.66a8 8 0 0 1 11.32-11.31L128 180.68l10.34-10.34a8 8 0 0 1 11.32 11.31L136 195.31v20.36c44.79-3.69 80-38 80-79.67Z"></path></svg></div>
-        </main>
-    </>);
+                <div className="text-center items-center flex flex-col lg:w-[20%] w-[33%]">
+                    <Link href={`products/${getIdOrTitle(data, 'cat', false)}`} className="flex flex-col ">
+                        <FontAwesomeIcon className={cssIcon} icon={faCat} />
+                        <span className={cssLabel}> {getIdOrTitle(data, 'cat', true)}</span>
+                    </Link>
+                </div>
+                <div className="text-center items-center flex flex-col lg:w-[20%] w-[33%]">
+                    <Link href={`products/${getIdOrTitle(data, 'clothing', false)}`} className="flex flex-col ">
+                        <FontAwesomeIcon className={cssIcon} icon={faShirt} />
+                        <span className={cssLabel}> {getIdOrTitle(data, 'clothing', true)}</span>
+                    </Link>
+                </div>
+                <div className="text-center items-center flex flex-col lg:w-[20%] w-[50%]">
+                    <Link href={`products/${getIdOrTitle(data, 'toy', false)}`} className="flex flex-col ">
+                        <FontAwesomeIcon className={cssIcon} icon={faVolleyball} />
+                        <span className={cssLabel}> {getIdOrTitle(data, 'toy', true)}</span>
+                    </Link>
+                </div>
+                <div className="text-center items-center flex flex-col lg:w-[20%] w-[50%]">
+                    <Link href={`products/${getIdOrTitle(data, 'toy', false)}`} className="flex flex-col ">
+                        <FontAwesomeIcon className={cssIcon} icon={faBottleDroplet} />
+                        <span className={cssLabel}> {getIdOrTitle(data, 'toy', true)}</span>
+                    </Link>
+                </div>
+            </main>
+        </>);
+    }
+
+
 };

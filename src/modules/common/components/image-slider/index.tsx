@@ -81,13 +81,13 @@ export default function Slider({ width, height }: sizeImage) {
                         ...Array(instanceRef.current.track.details.slides.length).keys(),
                     ].map((idx) => {
                         return (
-                            <button
+                            <a
                                 key={idx}
                                 onClick={() => {
                                     instanceRef.current?.moveToIdx(idx)
                                 }}
                                 className={"dot" + (currentSlide === idx ? " active" : "")}
-                            ></button>
+                            ></a>
                         )
                     })}
                 </div>

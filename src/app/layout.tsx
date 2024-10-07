@@ -4,7 +4,10 @@ import "./globals.css";
 import Nav from "@/modules/layout/templates/header/index"
 import NavMobile from "@/modules/layout/templates/header/index-mobile"
 import Footer from "@/modules/layout/templates/footer/index";
-
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { config } from "@fortawesome/fontawesome-svg-core";
+config.autoAddCss = false;
+// import { MyProvider } from './context';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -48,7 +51,6 @@ export default async function RootLayout({
       >
         <Nav></Nav>
         <NavMobile></NavMobile>
-        
         {children}
         <Footer></Footer>
       </body>
