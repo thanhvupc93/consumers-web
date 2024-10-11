@@ -7,5 +7,5 @@ export type ColorType = {
   inventories?: InventoryType;
   isActive: boolean;
   isDelete: boolean;
-  
+  countData: number;
 }

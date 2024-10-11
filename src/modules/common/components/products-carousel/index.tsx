@@ -1,10 +1,8 @@
 import { ProductType } from "@/types/product";
 import Image from "next/image";
-import Link from "next/link";
 import BTAddCart from "../button-add-cart";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import BTAddWishlist from "../button-add-wishlist";
+import { formatCurrency } from "@/utils/format";
 
 type ProductsCarouselProps = {
     listsData?: ProductType[];
@@ -20,17 +18,14 @@ export default function ProductsCarousel({ listsData, numberItem }: ProductsCaro
             <>
                 <div className={showItem}>
                     <div className="pr-3" >
-                        <Link className="lg:text-xl text-sm" href={`product-detail/${item.id}`}>
-                            {/* <a href={`product-detail/${item.id}`} className=" lg:text-xl  text-sm"> */}
+                        <a className="lg:text-xl text-sm" href={`product-detail/${item.id}`}>
                             <Image className="lg:w-[100%] w-[85%]  rounded-lg" src={item.image} width={350} height={275} alt='Picture of the author ' />
-                        </Link>
+                        </a>
                         <div className="text-left pt-6">
                             <h3 className=" lg:text-3xl  text-2xl font-[family-name:var(--font-geist-chilanka)] ">{item.title}</h3>
                         </div>
-
-                        {/* </a> */}
                         <div className="text-left mb-2 ">
-                            <a className="text-[var(--text-orange-color)] lg:text-xl  text-sm">{item.defaultPrice ? item.defaultPrice : 0}</a>
+                            <a className="text-[var(--text-orange-color)] lg:text-xl  text-sm">{formatCurrency(item.defaultPrice) ? formatCurrency(item.defaultPrice) : formatCurrency(0)}</a>
                         </div>
                         <div className="flex font-[family-name:var(--font-geist-chilanka)] ">
                             <div className="w-[60%] pr-4">

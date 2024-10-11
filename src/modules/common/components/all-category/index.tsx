@@ -5,7 +5,7 @@ import { IngredientType } from "@/types/ingredient";
 import ProductsCarouselProps from "@/modules/common/components/products-carousel/index";
 import { ProductType } from "@/types/product";
 import BTShowNow from "../button-shop-now";
-import { useAllProductHomeContex } from "@/hook/context";
+import { useAllProductHomeContex } from "@/hook/context/homeContext";
 
 
 type AllCategoryProps = {
@@ -23,8 +23,6 @@ export default function AllCategory({ title, initialTabs }: AllCategoryProps) {
             setSelectedData(data?.filter(element => element.type == item.label));
         }
         setSelectedTab(item);
-        console.log(' console.log(selectedTab1)', selectedTab)
-
     }
 
     const [selectedTab, setSelectedTab] = useState(initialTabs[0]);

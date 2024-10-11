@@ -1,33 +1,45 @@
-export default function HeroContent() {
+"use client"
+import { BreadcrumbsType } from "@/types/breadcrumbs"
+import Link from "next/link"
+
+type BreadcrumbsProps = {
+    data: BreadcrumbsType[]
+}
+
+export default function HeroContent({ data }: BreadcrumbsProps) {
+    const userItems = [];
+    for (let i = 0; i < data.length; i++) {
+        userItems.push(
+            <a key={`heroContent_a_${i}`} className="px-1"> {"/"}</a>
+        );
+        userItems.push(
+            <ul key={`heroContent_${i}`} className='text-xl font-normal pr-[var(--bs-navbar-nav-link-padding-x)] pl-[var(--bs-navbar-nav-link-padding-x)]'>
+                <li key={`heroContent_li_${i}`}>
+                    <Link key={`heroContent_link_${i}`} href={data[i].url} className='hover:text-[var(--text-orange-color)] hover:underline hover:underline-offset-2  text-left font-[family-name:var(--font-geist-chilanka)]'>
+                        {data[i].name}
+                    </Link>
+                </li>
+            </ul>
+        );
+    }
     return <>
         <div className="pt-3 bg bg-[var(--background-hero-banner)]">
             <main>
                 <div className='pt-20 pb-2'>
                     <span className='font-normal text-5xl text-left font-[family-name:var(--font-geist-chilanka)] hover:text-blue-500'>Shop</span>
                 </div>
-                <div className="flex pt-5 pb-20 ">
-                    <ul className='hover:text-[var(--text-orange-color)] font-normal pr-[var(--bs-navbar-nav-link-padding-x)] pl-[var(--bs-navbar-nav-link-padding-x)] cursor-pointer'>
-                        <ol className='flex flex-row text-xl text-left font-[family-name:var(--font-geist-chilanka)] '>
-                            {" Home / "}
 
-                        </ol>
+                <div className="flex pt-3 pb-20 ">
+                    <ul key={"heroContent_Home"} className='text-xl font-normal pr-[var(--bs-navbar-nav-link-padding-x)] pl-[var(--bs-navbar-nav-link-padding-x)]'>
+                        <li key={`heroContent_Home_li`}>
+                            <Link key={"heroContent_link_Home"} href="/" className='hover:text-[var(--text-orange-color)] hover:underline hover:underline-offset-2  text-left font-[family-name:var(--font-geist-chilanka)] '>
+                                {" Home "}
+                            </Link>
+                        </li>
                     </ul>
-                    <ul className='hover:text-[var(--text-orange-color)] font-normal pr-[var(--bs-navbar-nav-link-padding-x)] pl-[var(--bs-navbar-nav-link-padding-x)] cursor-pointer'>
-                        <ol className='flex flex-row text-xl text-left font-[family-name:var(--font-geist-chilanka)] '>
-                            {" Pages / "}
-                        </ol>
-                    </ul>
-                    <ul className='hover:text-[var(--text-orange-color)] font-normal pr-[var(--bs-navbar-nav-link-padding-x)] pl-[var(--bs-navbar-nav-link-padding-x)] cursor-pointer'>
-                        <ol className='flex flex-row text-xl text-left font-[family-name:var(--font-geist-chilanka)] '>
-                            {" Shop"}
-                        </ol>
-                    </ul>
-
+                    {userItems}
                 </div>
-
-
             </main>
-
         </div>
     </>
 }

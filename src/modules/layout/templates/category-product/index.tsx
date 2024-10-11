@@ -1,8 +1,8 @@
 "use client"
-import { ProductType } from "@/types/category-product";
 import ProductsCarouselProps from "@/modules/common/components/products-carousel/index";
 import useWindowSize from "@/hook/windown-size";
 import BTShowNow from "@/modules/common/components/button-shop-now";
+import { ProductType } from "@/types/product";
 
 
 

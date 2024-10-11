@@ -7,5 +7,5 @@ export type SizeType = {
   inventories?: InventoryType;
   isActive: boolean;
   isDelete: boolean;
-  
+  count: number;
 }

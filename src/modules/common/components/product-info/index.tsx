@@ -5,22 +5,22 @@ import { IngredientType } from "@/types/ingredient";
 import { ProductType } from "@/types/product";
 type AllCategoryProps = {
     initialTabs: IngredientType[];
-    data: ProductType[];
+    data?: ProductType[];
 }
 
 export default function ProductInfo({ initialTabs, data }: AllCategoryProps) {
 
     function handleSelectedTab(item: IngredientType) {
         if (item.label === 'All') {
-            setSelectedData(data);
+            // setSelectedData(data);
         } else {
-            setSelectedData(data?.filter(element => element.type == item.label));
+            // setSelectedData(data?.filter(element => element.type == item.label));
         }
         setSelectedTab(item);
     }
 
     const [selectedTab, setSelectedTab] = useState(initialTabs[0]);
-    const [selectedData, setSelectedData] = useState<ProductType[]>(data);
+    // const [selectedData, setSelectedData] = useState<ProductType[]>(data);
     const classNameLi = 'px-7 pt-3 rounded-md border border-[--bs-light-border-subtle] border-slate-300 bg-[var(--text-orange-color)]  border-b-2 border-b-[var(--text-orange-color)] ';
     return (
         <>
@@ -36,7 +36,7 @@ export default function ProductInfo({ initialTabs, data }: AllCategoryProps) {
                                         className={item === selectedTab ? classNameLi : "px-7 pt-3"}
                                         onClick={() => handleSelectedTab(item)}
                                     >
-                                        {`${item.icon} ${item.label}`}
+                                        {`${item.label}`}
                                         {item === selectedTab ? (
                                             <motion.div className="underline" layoutId="underline" />
                                         ) : null}
@@ -57,7 +57,6 @@ export default function ProductInfo({ initialTabs, data }: AllCategoryProps) {
                         exit={{ y: -10, opacity: 0 }}
                         transition={{ duration: 0.2 }}
                     >
-                        {selectedTab ? selectedTab.icon : "😋"}
                         <div className="px-4 py-2 text-2xl font-light font-[family-name:var(--font-geist-chilanka)]">{selectedTab.label}</div>
                         <div>
                             Product Description

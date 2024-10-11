@@ -1,13 +1,30 @@
+'use client'
+import { ProductSearchType } from '@/types/products_search';
+import { useDebouncedCallback } from 'use-debounce';
+
 type InputSearchProps = {
-    text: string
+    text: string,
+    changeProductSearch: (data: ProductSearchType) => void;
 }
-export default async function InputSearch({ text }: InputSearchProps) {
+export default function InputSearch({ text, changeProductSearch }: InputSearchProps) {
+    const debounced = useDebouncedCallback(
+        (value) => {
+            const data: ProductSearchType = {
+                key_word: value
+            }
+            changeProductSearch(data);
+        },
+        // delay in ms
+        500
+    );
+
     return <>
         <div className='h-[80%] rounded-md border border-[--bs-light-border-subtle] border-slate-300 pr-4 pl-4 flex '>
             <input
                 type='text'
                 className='w-[95%] text-left pl-5 pt-5 pb-5 outline-none'
                 placeholder={text}
+                onChange={(e) => debounced(e.target.value)}
             ></input>
             <div>
             </div>
