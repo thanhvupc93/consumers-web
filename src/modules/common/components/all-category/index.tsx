@@ -6,6 +6,7 @@ import ProductsCarouselProps from "@/modules/common/components/products-carousel
 import { ProductType } from "@/types/product";
 import BTShowNow from "../button-shop-now";
 import { useAllProductHomeContex } from "@/hook/context/homeContext";
+import { TAG_ACTIVI } from "@/utils/constants_css";
 
 
 type AllCategoryProps = {
@@ -27,7 +28,6 @@ export default function AllCategory({ title, initialTabs }: AllCategoryProps) {
 
     const [selectedTab, setSelectedTab] = useState(initialTabs[0]);
     const [selectedData, setSelectedData] = useState<ProductType[]>(data);
-    const classNameLi = 'border-b-2 border-b-[var(--text-orange-color)] border-solid ';
     return (
         <>
             <main className="px-3">
@@ -41,11 +41,10 @@ export default function AllCategory({ title, initialTabs }: AllCategoryProps) {
                         <nav>
                             <ul className="flex pt-6 pb-6">
                                 {initialTabs.map((item) => (
-                                    // eslint-disable-next-line react/jsx-key
-                                    <div className="pr-5  text-2xl font-light font-[family-name:var(--font-geist-chilanka)] ">
+                                    <div key={`div_${item.label}`} className="pr-5  text-2xl font-light font-[family-name:var(--font-geist-chilanka)] ">
                                         <li
                                             key={item.label}
-                                            className={item === selectedTab ? classNameLi : ""}
+                                            className={item === selectedTab ? TAG_ACTIVI : ""}
                                             onClick={() => handleSelectedTab(item)}
                                         >
                                             {`${item.icon} ${item.label}`}

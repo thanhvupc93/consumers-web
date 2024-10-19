@@ -1,28 +1,49 @@
 'use client'
 import InputSearch from "../input-search";
 import CustomErrorPage from "@/app/error";
-import useSWR from "swr";
 import { CategoryType } from "@/types/category";
 import Loading from "@/app/loading";
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { ProductSearchType } from "@/types/products_search";
 import { DEFAULT_LABEL_TEXT_ORANGE_COLOR_CSS_CLICK, DEFAULT_LABEL_TEXT_ORANGE_COLOR_CSS_DEFAULT } from "@/utils/constants_css";
+import { useEffect, useState } from "react";
+import { fetchAPI } from "@/utils/fetch";
+import { ResponseCustom } from "@/types/response";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
 interface AsideProps {
     changeProductSearch: (data1: ProductSearchType) => void;
 }
 
 export default function Aside({ changeProductSearch }: AsideProps) {
-    const { replace } = useRouter();
+    const [data, setData] = useState<CategoryType[]>([]);
+    const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const router = useRouter();
     const searchParams = useSearchParams();
     const pathName = usePathname();
     const categoryId = Number(searchParams.get('categoryId'));
 
-    const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_BACKEND_URL}/category`, fetcher);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response: ResponseCustom = await fetchAPI(`/${process.env.NEXT_PUBLIC_ALL_CATEGORY_URL}`, 'GET', null)
+                if (response) {
+                    setData(response.data)
+                }
+                setLoading(false);
+            } catch (err) {
+                console.log(err);
+                setError(true);
+                setLoading(false);
+            }
+
+        };
+        fetchData();
+    }, []);
+
 
     function changeParam(id: number) {
-        replace(`${pathName}?categoryId=${id}`)
+        router.push(`${pathName}?categoryId=${id}`, { scroll: false });
     }
     function handleClick(id: number) {
         const data: ProductSearchType = {
@@ -33,14 +54,14 @@ export default function Aside({ changeProductSearch }: AsideProps) {
     }
 
 
-    if (isLoading) return <Loading></Loading>
-    if (error) return <CustomErrorPage></CustomErrorPage>
+    if (loading) return <Loading></Loading>
+    if (error) return <CustomErrorPage message='Loading fail.....' ></CustomErrorPage>
     if (data) {
         return <>
             <div>
                 <InputSearch text={"Search For Product"} changeProductSearch={changeProductSearch} ></InputSearch>
             </div>
-            <div id="default-sidebar" className="absolute w-64 h-screen" aria-label="Sidebar">
+            <div id="default-sidebar" className="w-64 z-11 h-screen" aria-label="Sidebar">
                 <div className="pt-8">
                     <ul className="font-light font-[family-name:var(--font-geist-chilanka)]">
                         <div className="pb-5" ><span className="text-3xl mb-5"> Categories </span>
@@ -56,8 +77,7 @@ export default function Aside({ changeProductSearch }: AsideProps) {
                         </div>
 
                         {data.map((item: CategoryType) => (
-                        // eslint-disable-next-line react/jsx-key
-                            <div id={`aside-search-${item.id}`} className={item.id == categoryId ? DEFAULT_LABEL_TEXT_ORANGE_COLOR_CSS_CLICK : DEFAULT_LABEL_TEXT_ORANGE_COLOR_CSS_DEFAULT} onClick={() => handleClick(item.id)}>
+                            <div key={`div_aside_search_${item.id}`} id={`aside-search-${item.id}`} className={item.id == categoryId ? DEFAULT_LABEL_TEXT_ORANGE_COLOR_CSS_CLICK : DEFAULT_LABEL_TEXT_ORANGE_COLOR_CSS_DEFAULT} onClick={() => handleClick(item.id)}>
                                 <li
                                     key={item.id}
                                     className="pb-2"

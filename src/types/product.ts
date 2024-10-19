@@ -10,10 +10,10 @@ export type ProductType = {
   type: string
   description: string;
   defaultPrice: number;
-  inventories?: InventoryType[];
-  colors?: ColorType[];
-  category?: CategoryType;
-  sizes?: SizeType[];
+  inventories: InventoryType[];
+  colors: ColorType[];
+  category: CategoryType;
+  sizes: SizeType[];
   isActive: boolean;
   isDelete: boolean;
   

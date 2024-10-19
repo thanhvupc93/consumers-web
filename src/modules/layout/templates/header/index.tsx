@@ -1,7 +1,27 @@
+'use client'
 import Image from "next/image";
 import NavMenu from "@/modules/layout/templates/menu/index"
 import InputSearch from "@/modules/common/components/input-search";
-export default async function Nav() {
+import jwt from 'jsonwebtoken';
+import { TokenType } from "@/types/token";
+import { useEffect, useState } from "react";
+
+export default function Nav() {
+  const [data, setData] = useState<TokenType>();
+
+  useEffect(() => {
+    const checkStorage = () => {
+      const newToken = sessionStorage.getItem('access_token') || '';
+      const decoded: TokenType = jwt.decode(newToken);
+      if (decoded !== data) {
+        setData(decoded);
+      }
+    };
+    const intervalId = setInterval(checkStorage, 600); // Check every 100ms
+    return () => clearInterval(intervalId); // Cleanup on unmount
+  }, [data]);
+
+
   return (
     <>
       <div className="hidden lg:block">
@@ -18,7 +38,7 @@ export default async function Nav() {
                 Phone
               </span></div>
               <div><span className='font-normal text-xl text-right font-[family-name:var(--font-geist-chilanka)] '>
-                {" +980-34984089"}
+                {data?.phone || ""}
               </span></div>
             </div>
             <div className="w-[15%] pt-3 pb-3 text-right">
@@ -26,7 +46,7 @@ export default async function Nav() {
                 {" Email"}
               </span></div>
               <div><span className='font-normal text-xl text-right font-[family-name:var(--font-geist-chilanka)] '>
-                {"waggy@gmail.com "}
+                {data?.email || ""}
               </span></div>
             </div>
           </div>

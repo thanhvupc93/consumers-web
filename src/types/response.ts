@@ -1,3 +1,6 @@
+import { CategoryType } from "./category";
+import { ProductType } from "./product";
+
 export type PagingDto = {
     page: number;
     take: number;
@@ -7,12 +10,7 @@ export type PagingDto = {
     hasNextPage: boolean;
 }
 
-export class ResponseCustom {
-    data: any;
-    paging: PagingDto;
-
-     constructor(data: any, paging: PagingDto) {
-        this.data = data;
-        this.paging = paging;
-  }
+export type ResponseCustom ={
+    data: ProductType[] | CategoryType[] | ProductType[] | null;
+    paging: PagingDto| null;
 }

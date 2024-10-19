@@ -6,6 +6,7 @@ import NavMobile from "@/modules/layout/templates/header/index-mobile"
 import Footer from "@/modules/layout/templates/footer/index";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
+import FooterImage from "@/modules/layout/templates/footer-image";
 config.autoAddCss = false;
 // import { MyProvider } from './context';
 
@@ -52,6 +53,7 @@ export default async function RootLayout({
         <Nav></Nav>
         <NavMobile></NavMobile>
         {children}
+        <FooterImage></FooterImage>
         <Footer></Footer>
       </body>
     </html>

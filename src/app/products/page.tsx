@@ -12,6 +12,8 @@ import { ProductType } from "@/types/product";
 import { PagingDto, ResponseCustom } from "@/types/response";
 import { useSearchParams } from "next/navigation";
 import Paging from "@/modules/common/components/paging";
+import { fetchAPI } from "@/utils/fetch";
+import { ToastContainer } from "react-toastify";
 
 const breadcrumbsPropsData: BreadcrumbsType[] = [
   {
@@ -21,8 +23,8 @@ const breadcrumbsPropsData: BreadcrumbsType[] = [
 ]
 
 export default function ProductList() {
-  let alls: ResponseCustom;
   const [count, setCount] = useState(0);
+  const [error, setEror] = useState(0);
   const [products, setProducts] = useState<ProductType[]>();
   const [paging, setPaging] = useState<PagingDto>();
   const [selectPaging, setSelectPaging] = useState<number>(1);
@@ -45,6 +47,7 @@ export default function ProductList() {
     if (data.key_word || data.key_word == "") {
       productSearch.key_word = data.key_word
     }
+    setSelectPaging(1);
     setProductSearch(productSearch);
     setCount(prevCount => prevCount + 1);
   }, [productSearch]);
@@ -54,28 +57,28 @@ export default function ProductList() {
     const fetchData = async () => {
       const key = `?title=${productSearch.key_word}&category=${productSearch.categoryId}&page=${selectPaging}`
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${process.env.NEXT_PUBLIC_ALL_PRODUCT_URL}/${key}`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+        const response: ResponseCustom = await fetchAPI(`/${process.env.NEXT_PUBLIC_ALL_PRODUCT_URL}/${key}`, 'GET', null);
+        if (response) {
+          setProducts(response.data)
+          setPaging(response.paging)
         }
-        const result = await response.json();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        alls = new ResponseCustom(result.data, result.paging);
-        setProducts(alls.data)
-        setPaging(alls.paging)
       } catch (err) {
-        console.log(err)
-        return <CustomErrorPage></CustomErrorPage>
+        setProducts([]);
+        console.log("err", err)
+        setEror(1);
       } finally {
       }
     };
     fetchData();
-  }, [count, selectPaging]);
+  }, [count, productSearch.categoryId, productSearch.key_word, selectPaging]);
 
   if (!products) return <Loading></Loading>
-  if (products && paging) {
-    console.log('products ')
+  if (error == 1) return <CustomErrorPage message='Loading fail.....' />
+  if (products && paging && error == 0) {
     return <>
+
+      <ToastContainer></ToastContainer>
+
       <ProductsContext.Provider value={productSearch}>
         <HeroContent data={breadcrumbsPropsData}></HeroContent>
         <div className="pt-10"></div>
@@ -88,9 +91,8 @@ export default function ProductList() {
               <div className="flex justify-content-between align-items-center">
                 <div className="w-[50%] text-left">
                   <span className='font-normal text-xl font-[family-name:var(--font-geist-chilanka)] '>
-                    {/* ${Number(paging?.page) * Number(paging?.take) */}
-                    {` Showing 
-                    ${Number(paging?.page) == 1 ? 1 : (Number(paging?.page - 1) * Number(paging.take) + 1)} 
+                    {` Showing
+                    ${Number(paging?.page) == 1 ? 1 : (Number(paging?.page - 1) * Number(paging.take) + 1)}
                     - ${(Number(paging?.page) == 1 ? Number(paging.take) : (Number(paging?.page) * Number(paging.take)))}
                     of ${paging?.itemCount} results`}
                   </span>

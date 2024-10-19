@@ -9,7 +9,8 @@ const DEFAULT_LABEL_TEXT_ORANGE_COLOR_CSS_DEFAULT = LABEL_TEXT_ORANGE_COLOR_CSS_
 
 const BUTTON_BS_COLOR_CSS_ACTIVE = ' button_silver_activi uppercase rounded-md border border-[--bs-light-border-subtle] border-slate-300  ';
 const BUTTON_BS_COLOR_CSS_DEFAULT = ' uppercase rounded-md border-neutral-100  ';
-
+const TAG_ACTIVI = 'border-b-2 border-b-[var(--text-orange-color)] border-solid';
+const CSS_INPUT_DEFAULT = 'w-[100%] text-left pl-5 pt-5 pb-5'
 
 export { 
     LABEL_TEXT_5XL_XL,
@@ -21,5 +22,7 @@ export {
     DEFAULT_LABEL_TEXT_ORANGE_COLOR_CSS_CLICK,
     DEFAULT_LABEL_TEXT_ORANGE_COLOR_CSS_DEFAULT,
     BUTTON_BS_COLOR_CSS_ACTIVE,
-    BUTTON_BS_COLOR_CSS_DEFAULT
+    BUTTON_BS_COLOR_CSS_DEFAULT,
+    TAG_ACTIVI,
+    CSS_INPUT_DEFAULT
 }

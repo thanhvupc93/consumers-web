@@ -18,6 +18,7 @@
   --background-hero-banner: #F9F3EC;
   --bs-btn-active-bg: #babbbc;
   --bs-btn-active-border-color: #babbbc;
+  --background-color-popup: rgb(153 153 153)
   
 }
 html, body {
@@ -25,16 +26,16 @@ html, body {
  overflow-x: hidden;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #babbbc;
     --foreground: #ededed;
     --text-orange-color: #dead6f;
     --text-o-secondary-color: #dead6f;
     --bs-btn-active-bg: #babbbc;
     --bs-btn-active-border-color: #babbbc;
   }
-}
+} */
 
 @media (min-width:1281px){
   /* laptops and desktops */
@@ -86,12 +87,25 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 .input_custom {
-  border: 1px solid rgba(65, 64, 62, 0.20)
+  border: 1px solid rgba(65, 64, 62, 0.20);
+  color: #908F8D;
+  line-height: normal;
+  letter-spacing: 0.02125rem;
+  text-transform: capitalize;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(65, 64, 62, 0.20);
+  display: flex;
+  padding: 1.25rem 0rem 1.25rem 1.25rem;
 }
 .input_custom:focus {
-          border-color: 1px solid rgba(65, 64, 62, 0.80); /* Đổi màu viền khi nhấp vào */
-          outline: none; /* Loại bỏ viền mặc định */
-      }
+  border-color: 1px solid rgba(65, 64, 62, 0.80); /* Đổi màu viền khi nhấp vào */
+  outline: 1px solid rgba(33, 37, 41, 0.75);; /* Loại bỏ viền mặc định */
+}
+
+.input_custom_error {
+    border-color: 1px solid rgba(65, 64, 62, 0.80); /* Đổi màu viền khi nhấp vào */
+    outline: 1px solid rgba(252, 5, 5, 0.75);; /* Loại bỏ viền mặc định */
+}
 
 button {
   min-height: 40px;

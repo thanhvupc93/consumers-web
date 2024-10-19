@@ -5,35 +5,50 @@ import AllCategory from "@/modules/common/components/all-category";
 import DataAllCategory from "@/../public/data/allCategory.json";
 import { ProductType } from "@/types/product";
 import CategoryProduct from "@/modules/layout/templates/category-product";
-import useSWR from 'swr'
 import Loading from "./loading";
 import { HomeContextType } from "@/types/homeContext";
 import { HomeContext } from "@/hook/context/homeContext";
 import CustomErrorPage from "./error";
-import { ResponseCustom } from "@/types/response";
-import { useFetch } from "@/hook/useFetch";
+import { useEffect, useState } from "react";
+import { fetchAPI } from "@/utils/fetch";
 
 
 export default function Home() {
+  const [loading, setLoading] = useState(true);
+  const [error, setEror] = useState(false);
+  const [homecontext, setHomecontext] = useState<HomeContextType>({
+    allCategory: [],
+    allProduct: []
+  });
+  const [clothings, setClothings] = useState<ProductType[]>([]);
 
-  let clothings: ProductType[] = [];
-
-  const { data: all, error: userError, isLoading: isLoadingAll } = useFetch(`/${process.env.NEXT_PUBLIC_ALL_PRODUCT_URL}`);
-  const { data: allCategory, error: userErrorCategory, isLoading: isLoadingCategory } = useFetch(`/${process.env.NEXT_PUBLIC_ALL_CATEGORY_URL}`);
-  const { data: allClothing, error: userErrorClothings, isLoading: isLoadingClothings } = useFetch(`/${process.env.NEXT_PUBLIC_PRODUCT_SEARCH_BY_CATEROGY_URL}/2`);
-
-  if (isLoadingAll || isLoadingCategory || isLoadingClothings) return <Loading></Loading>
-  if (userError || userErrorCategory || userErrorClothings) return <CustomErrorPage></CustomErrorPage>
-  if (all && allCategory && allClothing) {
-
-    const alls: ResponseCustom = new ResponseCustom(all.data, all.paging);
-    // allClothings = new ResponseCustom(allClothing.data, allCategory.paging);
-    const homecontext: HomeContextType = {
-      allCategory: allCategory,
-      allProduct: alls.data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const responses = await Promise.all([
+          await fetchAPI(`/${process.env.NEXT_PUBLIC_ALL_PRODUCT_URL}`, 'GET', null),
+          await fetchAPI(`/${process.env.NEXT_PUBLIC_ALL_CATEGORY_URL}`, 'GET', null),
+          await fetchAPI(`/${process.env.NEXT_PUBLIC_PRODUCT_SEARCH_BY_CATEROGY_URL}/2`, 'GET', null),
+        ]);
+        const homecontext: HomeContextType = {
+          allCategory: responses[1].data,
+          allProduct: responses[0].data
+        }
+        setHomecontext(homecontext);
+        setClothings(responses[2].data);
+        setLoading(false);
+      } catch (err) {
+        console.log(err)
+        setLoading(false);
+        setEror(true)
+      }
     }
-    clothings = allClothing;
+    fetchData();
+  }, []);
 
+  if (loading) return <Loading></Loading>
+  if (error) return <CustomErrorPage message='Loading fail.....' />
+  if (!loading) {
     return (
       <>
         <HomeContext.Provider value={homecontext}>
