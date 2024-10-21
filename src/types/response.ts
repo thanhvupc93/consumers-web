@@ -11,6 +11,6 @@ export type PagingDto = {
 }
 
 export type ResponseCustom ={
-    data: ProductType[] | CategoryType[] | ProductType[] | null;
+    data: ProductType[] | CategoryType[] | ProductType[] |  ProductType| null;
     paging: PagingDto| null;
 }

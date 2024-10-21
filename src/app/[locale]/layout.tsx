@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import "./globals.css";
+import "@/app/globals.css";
 import Nav from "@/modules/layout/templates/header/index"
 import NavMobile from "@/modules/layout/templates/header/index-mobile"
 import Footer from "@/modules/layout/templates/footer/index";
@@ -8,7 +8,9 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import FooterImage from "@/modules/layout/templates/footer-image";
 config.autoAddCss = false;
-// import { MyProvider } from './context';
+import { CartProvider } from '@/./hook/context/CartContext';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -39,23 +41,32 @@ export const metadata: Metadata = {
 };
 
 
+
 export default async function RootLayout({
   children,
+  params: { locale }
 }: Readonly<{
   children: React.ReactNode;
+  params: { locale: string };
 }>) {
-
+  const messages = await getMessages();
   return (
-    <html lang="en">
+    <html lang={locale}>
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${geistChilanka.variable}  ${geistMontserrat.variable} antialiased`}
       >
-        <Nav></Nav>
-        <NavMobile></NavMobile>
-        {children}
-        <FooterImage></FooterImage>
-        <Footer></Footer>
+        <NextIntlClientProvider messages={messages}>
+          <Nav></Nav>
+          <NavMobile></NavMobile>
+          <CartProvider>{children}</CartProvider>
+          <FooterImage></FooterImage>
+          <Footer></Footer>
+        </NextIntlClientProvider>
       </body>
+
     </html>
+
+
   );
 }

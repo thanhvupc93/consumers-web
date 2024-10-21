@@ -3,11 +3,11 @@ import NavRighttMenuMobile from "./index-mobile";
 
 export default function NavMenuMobile() {
     return (
-        <div className="flex-row">
-            <div className='flex-initial w-[75%] ' >
+        <div className="flex flex-row">
+            <div className='flex w-[80%] ' >
                 <NavLeftMenuMobile></NavLeftMenuMobile>
             </div>
-            <div className='flex-initial w-[25%] ' >
+            <div className='flex w-[20%] ' >
                 <NavRighttMenuMobile></NavRighttMenuMobile>
             </div>
         </div>

@@ -14,17 +14,19 @@ import { useSearchParams } from "next/navigation";
 import Paging from "@/modules/common/components/paging";
 import { fetchAPI } from "@/utils/fetch";
 import { ToastContainer } from "react-toastify";
+import { useTranslations } from "next-intl";
 
 const breadcrumbsPropsData: BreadcrumbsType[] = [
   {
-    name: "Product List",
+    name: 'productList',
     url: '/products'
   }
 ]
 
 export default function ProductList() {
+  const p = useTranslations('Paging');
   const [count, setCount] = useState(0);
-  const [error, setEror] = useState(0);
+  const [error, setEror] = useState(false);
   const [products, setProducts] = useState<ProductType[]>();
   const [paging, setPaging] = useState<PagingDto>();
   const [selectPaging, setSelectPaging] = useState<number>(1);
@@ -65,7 +67,7 @@ export default function ProductList() {
       } catch (err) {
         setProducts([]);
         console.log("err", err)
-        setEror(1);
+        setEror(true);
       } finally {
       }
     };
@@ -73,8 +75,8 @@ export default function ProductList() {
   }, [count, productSearch.categoryId, productSearch.key_word, selectPaging]);
 
   if (!products) return <Loading></Loading>
-  if (error == 1) return <CustomErrorPage message='Loading fail.....' />
-  if (products && paging && error == 0) {
+  if (error) return <CustomErrorPage message='Loading fail.....' />
+  if (products && paging && !error) {
     return <>
 
       <ToastContainer></ToastContainer>
@@ -91,15 +93,15 @@ export default function ProductList() {
               <div className="flex justify-content-between align-items-center">
                 <div className="w-[50%] text-left">
                   <span className='font-normal text-xl font-[family-name:var(--font-geist-chilanka)] '>
-                    {` Showing
+                    {` ${p('showing')}
                     ${Number(paging?.page) == 1 ? 1 : (Number(paging?.page - 1) * Number(paging.take) + 1)}
                     - ${(Number(paging?.page) == 1 ? Number(paging.take) : (Number(paging?.page) * Number(paging.take)))}
-                    of ${paging?.itemCount} results`}
+                    ${p('of')} ${paging?.itemCount} ${p('results')}`}
                   </span>
                 </div>
                 <div className="w-[50%] text-right">
                   <span className='font-normal text-xl  font-[family-name:var(--font-geist-chilanka)] '>
-                    {" Default sorting"}
+                    {p('defaultSorting')}
                   </span>
                 </div>
               </div>

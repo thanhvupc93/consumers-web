@@ -53,7 +53,7 @@ export default function SliderThumbnails({ width, height, data }: sizeImage) {
         initial: 0,
         defaultAnimation: {
             duration: 0.1,
-            easing: (t: number) => 0.1
+            easing: (t: number) => t + 0.1
 
         }
 

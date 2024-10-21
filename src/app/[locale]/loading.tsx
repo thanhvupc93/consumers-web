@@ -1,4 +1,4 @@
-import "./globals.css";
+import "@/app/globals.css";
 
 export default function Loading() {
     // You can add any UI inside Loading, including a Skeleton.

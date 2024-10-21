@@ -1,0 +1,47 @@
+{
+  "MenuBar": {
+    "hi": "Hi",
+    "loguot": "Loguot",
+    "phone": "Phone",
+    "email":  "Email"
+  },
+  "Cart": {
+    "addtocart": "Add To Cart",
+    "shopnow": "Shop Now"
+  },
+  "Category": {
+    "all": "All",
+    "cat": "Cat",
+    "dog": "Dog",
+    "toy": "Toy",
+    "clothing": "Clothing",
+    "milk": "Milk",
+    "category": "Category"
+  },
+  "HomePage": {
+    "petfood": "Pet Foodies",
+    "petclothing": "Pet Clothing",
+    "home": "Home",
+    "productList":"Product List"
+  },
+  "Search": {
+    "searchForProducts": "Search For Products",
+    "searchMoreProducts":"Search For More 1000 Products"
+  },
+  "Paging": {
+    "showing": "Showing ",
+    "of": "of ",
+    "results": "results",
+    "defaultSorting":"Default sorting"
+  },
+  "Product": {
+    "color": "Color",
+    "size": "Size",
+    "inStock": "in stock",
+    "tags": "Tags",
+    "description": "Description",
+    "additionalInformation": "Additional Information",
+    "customerReviews":  "Customer Reviews"
+  }
+
+}

@@ -1,6 +1,6 @@
 'use client'
 import Link from "next/link";
-import "./globals.css";
+import "@/app/globals.css";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 
 type ErorProps = {

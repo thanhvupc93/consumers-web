@@ -1,7 +1,7 @@
 import { UserType } from "@/types/user";
 import { CSS_INPUT_DEFAULT } from "@/utils/constants_css";
 import { useState } from "react";
-import { Bounce, toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 interface LoginCommonProps {
     onSubmit: (data: UserType) => void

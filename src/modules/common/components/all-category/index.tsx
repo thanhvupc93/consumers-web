@@ -7,7 +7,7 @@ import { ProductType } from "@/types/product";
 import BTShowNow from "../button-shop-now";
 import { useAllProductHomeContex } from "@/hook/context/homeContext";
 import { TAG_ACTIVI } from "@/utils/constants_css";
-
+import { useTranslations } from 'next-intl';
 
 type AllCategoryProps = {
     title: string;
@@ -15,6 +15,7 @@ type AllCategoryProps = {
 }
 
 export default function AllCategory({ title, initialTabs }: AllCategoryProps) {
+    const t = useTranslations('Category');
     const data: ProductType[] = useAllProductHomeContex();
 
     function handleSelectedTab(item: IngredientType) {
@@ -47,7 +48,7 @@ export default function AllCategory({ title, initialTabs }: AllCategoryProps) {
                                             className={item === selectedTab ? TAG_ACTIVI : ""}
                                             onClick={() => handleSelectedTab(item)}
                                         >
-                                            {`${item.icon} ${item.label}`}
+                                            {t(item.label)}
                                             {item === selectedTab ? (
                                                 <motion.div className="underline" layoutId="underline" />
                                             ) : null}
@@ -72,7 +73,7 @@ export default function AllCategory({ title, initialTabs }: AllCategoryProps) {
                             exit={{ y: -10, opacity: 0 }}
                             transition={{ duration: 0.2 }}
                         >
-                            {selectedTab ? selectedTab.icon : "😋"}
+                            {/* {selectedTab ? selectedTab.icon : "😋"} */}
                             <ProductsCarouselProps listsData={selectedData}></ProductsCarouselProps>
                         </motion.div>
                     </AnimatePresence>

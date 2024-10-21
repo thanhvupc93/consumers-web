@@ -3,24 +3,20 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { IngredientType } from "@/types/ingredient";
 import { ProductType } from "@/types/product";
+import { useTranslations } from "next-intl";
 type AllCategoryProps = {
     initialTabs: IngredientType[];
     data?: ProductType[];
 }
 
-export default function ProductInfo({ initialTabs, data }: AllCategoryProps) {
+export default function ProductInfo({ initialTabs }: AllCategoryProps) {
+    const p = useTranslations('Product');
 
     function handleSelectedTab(item: IngredientType) {
-        if (item.label === 'All') {
-            // setSelectedData(data);
-        } else {
-            // setSelectedData(data?.filter(element => element.type == item.label));
-        }
         setSelectedTab(item);
     }
 
     const [selectedTab, setSelectedTab] = useState(initialTabs[0]);
-    // const [selectedData, setSelectedData] = useState<ProductType[]>(data);
     const classNameLi = 'px-7 pt-3 rounded-md border border-[--bs-light-border-subtle] border-slate-300 bg-[var(--text-orange-color)]  border-b-2 border-b-[var(--text-orange-color)] ';
     return (
         <>
@@ -29,14 +25,13 @@ export default function ProductInfo({ initialTabs, data }: AllCategoryProps) {
                     <nav className="w-full">
                         <ul className=" pt-6 pb-6">
                             {initialTabs.map((item) => (
-                                // eslint-disable-next-line react/jsx-key
-                                <div className="px-4 py-2 text-2xl font-light font-[family-name:var(--font-geist-chilanka)] ">
+                                <div key={`div_${item.label}`} className="px-4 py-2 text-2xl font-light font-[family-name:var(--font-geist-chilanka)] ">
                                     <li
                                         key={item.label}
                                         className={item === selectedTab ? classNameLi : "px-7 pt-3"}
                                         onClick={() => handleSelectedTab(item)}
                                     >
-                                        {`${item.label}`}
+                                        {`${p(item.label)}`}
                                         {item === selectedTab ? (
                                             <motion.div className="underline" layoutId="underline" />
                                         ) : null}

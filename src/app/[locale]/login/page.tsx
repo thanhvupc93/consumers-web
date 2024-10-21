@@ -46,7 +46,7 @@ export default function Login() {
                 throw new Error('Network response was not ok');
             }
             const result = await response.json();
-            sessionStorage.setItem('access_token', result.access_token);
+            localStorage.setItem('access_token', result.access_token);
             router.replace('/')
         } catch (err) {
             console.log(err)
@@ -78,7 +78,7 @@ export default function Login() {
                 throw new Error('Network response was not ok');
             }
             const result = await response.json();
-            sessionStorage.setItem('access_token', result.access_token);
+            localStorage.setItem('access_token', result.access_token);
             router.replace('/')
         } catch (err) {
             console.log(err)

@@ -6,6 +6,8 @@ import { isTokenExpired } from "@/utils/jwt";
 import { useEffect, useState } from "react";
 import { TokenType } from "@/types/token";
 import jwt from 'jsonwebtoken';
+import SwitcherLanguage from "../switcher-language/switcher";
+import { useTranslations } from 'next-intl';
 
 const listsMenu = [
   {
@@ -55,10 +57,10 @@ function sortMenu(listsMenu: any) {
 
 export default function NavMenu() {
   const [data, setData] = useState<TokenType>();
-
+  const t = useTranslations('MenuBar');
   useEffect(() => {
     const checkStorage = () => {
-      const newToken = sessionStorage.getItem('access_token') || '';
+      const newToken = localStorage.getItem('access_token') || '';
       const decoded: TokenType = jwt.decode(newToken);
       if (decoded !== data) {
         setData(decoded);
@@ -87,19 +89,16 @@ export default function NavMenu() {
     }
   }
   function handleClickLogout() {
-    sessionStorage.clear();
+    localStorage.clear();
     router.replace('/')
   }
 
   return (
     <menu className='flex px-3 pt-6 pb-6 mr-[12px] ml-[12px] align-items-center'>
-      <div className='flex-auto  w-[25%]  '>
-        <ol className='font-normal text-xl text-left font-[family-name:var(--font-geist-chilanka)] hover:text-blue-500'>
-          {" "}
-          Shop by category
-        </ol>
+      <div className='flex  w-[25%]'>
+        <SwitcherLanguage /> 
       </div>
-      <div className='flex-auto  w-[50%] '>
+      <div className='flex  w-[50%] '>
         <ul className='ml-[10%]'>
           <ol className='flex flex-row text-xl text-left font-[family-name:var(--font-geist-chilanka)] '>
             {" "}
@@ -107,34 +106,29 @@ export default function NavMenu() {
           </ol>
         </ul>
       </div>
-      <div className='flex-auto  w-[25%] '>
-        <div className=' flex flex-row justify-end'>
+      <div className='flex  w-[25%] '>
+        <div className=' flex justify-end'>
           {
             data?.fullName ?
               <>
                 <div>
-                  Hi:
+                  {t('hi')}: 
                   <span className='font-normal text-xl text-right text-[var(--text-orange-color)] font-[family-name:var(--font-geist-chilanka)] '>
                     {data?.fullName.split(" ")[0] || ""}
                   </span>
                   <span> / </span>
                   <a className="px-3" onClick={() => handleClickLogout()}>
                     <span className='font-normal cursor-pointer hover:text-[var(--text-orange-color)] text-xl text-right  font-[family-name:var(--font-geist-chilanka)] '>
-                      Loguot
+                      {t('loguot')}
                     </span>
                   </a>
                 </div>
               </> : <>
                 <a className="px-3" onClick={() => handleClickUser()}>
-                  {data?.fullName
-                    || ""} <FontAwesomeIcon className="text-xl" icon={faUser} />
+                  <FontAwesomeIcon className="text-xl" icon={faUser} />
                 </a>
               </>
           }
-          {/* <a className="px-3" onClick={() => handleClickUser()}>
-            {data?.fullName
-              || ""} <FontAwesomeIcon className="text-xl" icon={faUser} />
-          </a> */}
           <a className="px-3" >
             <FontAwesomeIcon className="text-xl" icon={faHeart} />
           </a>

@@ -19,7 +19,7 @@ export default function ProductsCarousel({ listsData, numberItem }: ProductsCaro
                         <li key={`ProductsCarousel_li_${item.id}`}>
                             <div className="pr-3" >
                                 <a className="lg:text-xl text-sm" href={`product-detail/${item.id}`}>
-                                    <Image className="lg:w-[100%] w-[85%]  rounded-lg" src={item.image} width={350} height={275} alt='Picture of the author ' />
+                                    <Image className="lg:w-[100%] w-[85%] rounded-lg" src={item.image} width={350} height={275} alt='Picture of the author ' />
                                 </a>
                                 <div className="text-left pt-6">
                                     <h3 className=" lg:text-3xl text-2xl font-[family-name:var(--font-geist-chilanka)] ">{item.title}</h3>

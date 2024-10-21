@@ -1,0 +1,46 @@
+{
+  "MenuBar": {
+    "hi": "Chào",
+    "loguot": "Đăng xuất",
+    "phone": "Số Điện Thoại",
+    "email": "Thư Điện Tử"
+  },
+  "Cart": {
+    "addtocart": "Thêm Giỏ Hàng",
+    "shopnow": "Mua Ngay"
+  },
+  "Category": {
+    "all": "Tất Cả",
+    "cat": "Mèo",
+    "dog": "Chó",
+    "toy": "Đồ Chơi",
+    "clothing": "Quần Áo",
+    "milk": "Sữa",
+    "category": "Phân Loại"
+  },
+  "HomePage": {
+    "petfood": "Thức Ăn",
+    "petclothing": "Quần Áo",
+    "home": "Trang Chủ",
+    "productList":"Danh Sách Sản Phẩm"
+  },
+    "Search": {
+    "searchForProducts": "Tìm Tên Sản Phẩm",
+     "searchMoreProducts":"Tìm với hơn 1000 sản phẩm"
+  },
+  "Paging": {
+    "showing": "Hiển thị ",
+    "of": "của ",
+    "results": "Kết quả",
+    "defaultSorting":"Sắp xếp mặc định" 
+  },
+  "Product": {
+    "color": "Màu",
+    "size": "Kích cỡ",
+    "inStock": "tồn kho",
+    "tags": "Thẻ",
+    "description": "Mô Tả",
+    "additionalInformation": "Thông tin bổ sung",
+    "customerReviews":  "Đánh giá người dùng"
+  }
+}

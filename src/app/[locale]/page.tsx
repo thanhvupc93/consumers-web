@@ -11,9 +11,12 @@ import { HomeContext } from "@/hook/context/homeContext";
 import CustomErrorPage from "./error";
 import { useEffect, useState } from "react";
 import { fetchAPI } from "@/utils/fetch";
+import { useTranslations } from "next-intl";
 
 
 export default function Home() {
+  const h = useTranslations('HomePage');
+
   const [loading, setLoading] = useState(true);
   const [error, setEror] = useState(false);
   const [homecontext, setHomecontext] = useState<HomeContextType>({
@@ -56,8 +59,8 @@ export default function Home() {
             <Slider width={400} height={300}></Slider>
           </div>
           <Categories></Categories>
-          <AllCategory title="Pet Foodies" initialTabs={DataAllCategory.allIngredients}></AllCategory>
-          <CategoryProduct title="Pet Clothing" data={clothings} ></CategoryProduct >
+          <AllCategory title={h('petfood')} initialTabs={DataAllCategory.allIngredients}></AllCategory>
+          <CategoryProduct title={h('petclothing')} data={clothings} ></CategoryProduct >
         </HomeContext.Provider>
       </>
     );

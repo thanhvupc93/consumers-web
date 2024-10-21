@@ -1,8 +1,7 @@
 {
 "allIngredients" : [
-   { "icon": "", "label": "All" },
-  { "icon": "", "label": "Cat" },
-  { "icon": "", "label": "Dog" },
-  { "icon": "", "label": "Bird" }
+   { "icon": "1", "label": "all" },
+   { "icon": "2", "label": "cat" },
+   { "icon": "3", "label": "dog" }
 ]
 }

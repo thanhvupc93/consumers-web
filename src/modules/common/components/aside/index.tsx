@@ -1,20 +1,23 @@
 'use client'
 import InputSearch from "../input-search";
-import CustomErrorPage from "@/app/error";
+import CustomErrorPage from "@/app/[locale]/error";
 import { CategoryType } from "@/types/category";
-import Loading from "@/app/loading";
+import Loading from "@/app/[locale]/loading";
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { ProductSearchType } from "@/types/products_search";
 import { DEFAULT_LABEL_TEXT_ORANGE_COLOR_CSS_CLICK, DEFAULT_LABEL_TEXT_ORANGE_COLOR_CSS_DEFAULT } from "@/utils/constants_css";
 import { useEffect, useState } from "react";
 import { fetchAPI } from "@/utils/fetch";
 import { ResponseCustom } from "@/types/response";
+import { useTranslations } from 'next-intl';
 
 interface AsideProps {
-    changeProductSearch: (data1: ProductSearchType) => void;
+    changeProductSearch: (data: ProductSearchType) => void;
 }
 
 export default function Aside({ changeProductSearch }: AsideProps) {
+    const c = useTranslations('Category');
+    const s = useTranslations('Search');
     const [data, setData] = useState<CategoryType[]>([]);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -45,6 +48,7 @@ export default function Aside({ changeProductSearch }: AsideProps) {
     function changeParam(id: number) {
         router.push(`${pathName}?categoryId=${id}`, { scroll: false });
     }
+
     function handleClick(id: number) {
         const data: ProductSearchType = {
             categoryId: id
@@ -53,25 +57,47 @@ export default function Aside({ changeProductSearch }: AsideProps) {
         changeParam(id)
     }
 
+    function changeNameCategory(name: string) {
+        switch (name) {
+            case 'Cat':
+                return c('cat')
+                break;
+            case 'Dog':
+                return c('dog')
+                break;
+            case 'Toy':
+                return c('toy')
+                break;
+            case 'Clothing':
+                return c('clothing')
+                break;
+            case 'Milk':
+                return c('milk')
+                break;
+            default:
+                return c('all')
+        }
+    }
+
 
     if (loading) return <Loading></Loading>
     if (error) return <CustomErrorPage message='Loading fail.....' ></CustomErrorPage>
     if (data) {
         return <>
             <div>
-                <InputSearch text={"Search For Product"} changeProductSearch={changeProductSearch} ></InputSearch>
+                <InputSearch text={s('searchForProducts')} changeProductSearch={changeProductSearch} ></InputSearch>
             </div>
             <div id="default-sidebar" className="w-64 z-11 h-screen" aria-label="Sidebar">
                 <div className="pt-8">
                     <ul className="font-light font-[family-name:var(--font-geist-chilanka)]">
-                        <div className="pb-5" ><span className="text-3xl mb-5"> Categories </span>
+                        <div className="pb-5" ><span className="text-3xl mb-5"> {c('category')} </span>
                         </div>
                         <div id={`aside-search-0`} className={0 == categoryId ? DEFAULT_LABEL_TEXT_ORANGE_COLOR_CSS_CLICK : DEFAULT_LABEL_TEXT_ORANGE_COLOR_CSS_DEFAULT} onClick={() => handleClick(0)}>
                             <li
                                 key={0}
                                 className="pb-2"
                             >
-                                {"All"}
+                                {c('all')}
 
                             </li>
                         </div>
@@ -82,7 +108,7 @@ export default function Aside({ changeProductSearch }: AsideProps) {
                                     key={item.id}
                                     className="pb-2"
                                 >
-                                    {item.title}
+                                    {changeNameCategory(item.title)}
 
                                 </li>
                             </div>
