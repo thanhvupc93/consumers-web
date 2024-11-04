@@ -4,7 +4,7 @@ import { useDebouncedCallback } from 'use-debounce';
 
 type InputSearchProps = {
     text: string,
-    changeProductSearch: (data: ProductSearchType) => void;
+    changeProductSearch?: (data: ProductSearchType) => void;
 }
 export default function InputSearch({ text, changeProductSearch }: InputSearchProps) {
     const debounced = useDebouncedCallback(
@@ -12,7 +12,9 @@ export default function InputSearch({ text, changeProductSearch }: InputSearchPr
             const data: ProductSearchType = {
                 key_word: value
             }
-            changeProductSearch(data);
+            if (changeProductSearch) {
+                changeProductSearch(data);
+            }
         },
         // delay in ms
         500

@@ -1,4 +1,5 @@
 "use client"
+import { useUser } from "@/hook/context/userContext";
 import HeroContent from "@/modules/common/components/hero-content";
 import LoginCommon from "@/modules/layout/templates/login";
 import SignUpCommon from "@/modules/layout/templates/singup";
@@ -11,7 +12,8 @@ import { useRouter } from 'next/navigation';
 import { useState } from "react";
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { useSearchParams } from 'next/navigation';
+import { signIn } from "next-auth/react";
 const breadcrumbsPropsData: BreadcrumbsType[] = [
     {
         name: "Account",
@@ -25,12 +27,16 @@ const allIngredients = [
 ]
 
 export default function Login() {
-    const router = useRouter()
+    const { dispatch: dispatchUser } = useUser();
+    const router = useRouter();
+    const searchParams = useSearchParams();
     const [selectedTab, setSelectedTab] = useState(allIngredients[0]);
 
     function handleSelectedTab(item: IngredientType) {
         setSelectedTab(item);
     }
+
+
 
     const handleSubmitLogin = async (formData: UserType) => {
         try {
@@ -47,10 +53,29 @@ export default function Login() {
             }
             const result = await response.json();
             localStorage.setItem('access_token', result.access_token);
-            router.replace('/')
+            dispatchUser({ type: 'LOGIN', payload: { token: result.access_token } });
+            const callbackUrl = searchParams.get('callbackUrl');
+            console.log(callbackUrl);
+            if (callbackUrl) {
+                await signIn('credentials', {
+                    username: formData.userName,
+                    fullName: formData.fullName,
+                    redirect: true,
+                    callbackUrl: callbackUrl,
+                })
+            } else {
+                await signIn('credentials', {
+                    username: formData.userName,
+                    fullName: formData.fullName,
+                    redirect: false
+
+                })
+                router.replace('/')
+            }
+
         } catch (err) {
             console.log(err)
-            toast.error('Login Fail', {
+            toast.error(`${err}`, {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -78,7 +103,7 @@ export default function Login() {
                 throw new Error('Network response was not ok');
             }
             const result = await response.json();
-            localStorage.setItem('access_token', result.access_token);
+            dispatchUser({ type: 'LOGIN', payload: { token: result.access_token } });
             router.replace('/')
         } catch (err) {
             console.log(err)

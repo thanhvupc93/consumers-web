@@ -2,12 +2,13 @@ import { UserType } from "@/types/user";
 import { CSS_INPUT_DEFAULT } from "@/utils/constants_css";
 import { useState } from "react";
 import { ToastContainer } from "react-toastify";
+import { useTranslations } from "next-intl";
 
 interface LoginCommonProps {
     onSubmit: (data: UserType) => void
 }
 export default function LoginCommon({ onSubmit }: LoginCommonProps) {
-
+    const u = useTranslations('User');
     const [validateUserName, setValidateUserName] = useState<boolean>(false);
     const [validatePassword, setValidatePassword] = useState<boolean>(false);
 
@@ -16,19 +17,20 @@ export default function LoginCommon({ onSubmit }: LoginCommonProps) {
         password: ''
     });
 
-    const onChangeData = (
+    const onChangeDataLogin = (
         (value: string, index: number) => {
             const data: UserType = loginData;
             if (index == 1) {
-                data.userName = value;
                 setValidateUserName(false);
+                data.userName = value;
+
                 setLoginData(data);
             } else {
+                setValidatePassword(false);
                 data.password = value;
                 setLoginData(data);
-                setValidatePassword(false);
-            }
 
+            }
         }
     );
 
@@ -56,8 +58,8 @@ export default function LoginCommon({ onSubmit }: LoginCommonProps) {
                     <input
                         type='text'
                         className={validateUserName ? `input_custom_error ${CSS_INPUT_DEFAULT}` : `input_custom ${CSS_INPUT_DEFAULT}`}
-                        placeholder='Enter Email Address'
-                        onChange={(e) => onChangeData(e.target.value, 1)}
+                        placeholder={u('userName')}
+                        onChange={(e) => onChangeDataLogin(e.target.value, 1)}
                     ></input>
                 </div>
 
@@ -65,8 +67,8 @@ export default function LoginCommon({ onSubmit }: LoginCommonProps) {
                     <input
                         type='password'
                         className={validatePassword ? `input_custom_error ${CSS_INPUT_DEFAULT}` : `input_custom ${CSS_INPUT_DEFAULT}`}
-                        placeholder='Enter Password'
-                        onChange={(e) => onChangeData(e.target.value, 2)}
+                        placeholder={u('password')}
+                        onChange={(e) => onChangeDataLogin(e.target.value, 2)}
                     ></input>
                 </div>
 

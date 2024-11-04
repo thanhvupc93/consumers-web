@@ -1,5 +1,8 @@
 
-export const formatCurrency = (data: number | undefined): string => {
-    return ` $ ${data}`
+export default function formatCurrency(data: number, locale: string) {
+        if (locale === 'vi') {
+            return `${data} VNĐ`
+        } else {
+            return` $ ${data}`
+    }
 }
- 

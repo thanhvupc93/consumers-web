@@ -10,17 +10,17 @@ import { BreadcrumbsType } from "@/types/breadcrumbs";
 import { InventoryType } from "@/types/inventory";
 import { ProductType } from "@/types/product";
 import { BUTTON_BS_COLOR_CSS_ACTIVE, BUTTON_BS_COLOR_CSS_DEFAULT } from "@/utils/constants_css";
-import { formatCurrency } from "@/utils/format";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { allTags } from "../../../../../public/data/productTag";
-import { useCart } from "@/hook/context/CartContext";
+import { useCart } from "@/hook/context/cartContext";
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { fetchAPI } from "@/utils/fetch";
 import { ResponseCustom } from "@/types/response";
 import InputQuanlity from "@/modules/common/components/input-quanlity";
-import { useTranslations } from "next-intl";
-
+import { useTranslations, useLocale } from "next-intl";
+import { CartItemType } from "@/types/cartItem";
+import formatCurrency from "@/utils/format";
 const breadcrumbsPropsData: BreadcrumbsType[] = [
     {
         name: 'productList',
@@ -34,12 +34,15 @@ type ProductStateType = {
 }
 
 export default function ProductDetail({ params }: { params: { id: string } }) {
+    const locale = useLocale();
     const p = useTranslations('Product');
     const c = useTranslations('Category');
+    const page = useTranslations('Page');
     const [error, setEror] = useState(false);
     const [loading, setLoading] = useState(true);
     const [productDetailtState, setProductDetailState] = useState<ProductType>();
     const [quantity, setQuantity] = useState<number>(1);
+    const [inventory, setInventoryState] = useState<InventoryType>();
     const [productState, setProductState] = useState<ProductStateType>({
         select_color: 0,
         select_size: 0,
@@ -49,40 +52,38 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
         setQuantity(data);
     }, []);
 
-    function findInventorySelectAndChangePrice(data: InventoryType[], select_size: number, select_color: number): InventoryType[] {
+    function setDataInventoryState(data: InventoryType[], select_size: number, select_color: number) {
         const inventory: InventoryType[] = data.filter((e) => {
             return e.size?.id === select_size && e.color?.id === select_color;
         });
-        const stockElement = document.getElementById('produce_detail_stock');
-        if (stockElement) {
-            stockElement.textContent = `${inventory[0]?.quantity || 0}  ${p('inStock')}`
-        }
-        return inventory;
+        setInventoryState(inventory[0]);
     }
 
-    useMemo(() => {
-        if (productDetailtState) {
-            const inventory = findInventorySelectAndChangePrice(productDetailtState.inventories, productState.select_size, productState.select_color);
-            const priceElement = document.getElementById('product_detail_price');
-            if (priceElement) {
-                priceElement.textContent = inventory.length > 0 ? formatCurrency(inventory[0].price) : formatCurrency(productDetailtState.defaultPrice); // Thay đổi giá trị hiển thị
-            }
-        }
-    }, [productDetailtState, productState]);
+    // useMemo(() => {
+    //     if (inventory && productDetailtState && productState && count) {
+    //         const priceElement = document.getElementById('product_detail_price');
+    //         if (priceElement && inventory) {
+    //             priceElement.textContent = formatCurrency(inventory.price, locale); // Thay đổi giá trị hiển thị
+    //         }
+    //     }
+    // }, [inventory, locale, productDetailtState, productState, count]);
 
-    function handleClick(productDetail: ProductType, id: number, type: string) {
+    function handleClick(id: number, type: string) {
         if (type === "_color") {
             setProductState({
                 select_color: id,
                 select_size: productState.select_size
             })
+            setDataInventoryState(productDetailtState?.inventories || [], productState.select_size, id);
         } else {
             setProductState({
                 select_size: id,
                 select_color: productState.select_color
             })
-
+            setDataInventoryState(productDetailtState?.inventories || [], id, productState.select_color);
         }
+
+
     }
 
     useEffect(() => {
@@ -111,11 +112,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                         }
                     );
                     setProductDetailState(data);
-                    const inventory = findInventorySelectAndChangePrice(data.inventories, sizeId, colorId);
-                    const stockElement = document.getElementById('produce_detail_stock');
-                    if (stockElement) {
-                        stockElement.textContent = `${inventory[0]?.quantity || 0} in stock`
-                    }
+                    setDataInventoryState(data.inventories, sizeId, colorId);
                     setLoading(false);
                 }
             } catch (err) {
@@ -131,62 +128,86 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
         fetchData();
     }, [params.id]);
 
-    const { dispatch } = useCart();
+    const { state, dispatch } = useCart();
 
     const addToCart = () => {
-        const inventory = productDetailtState ? findInventorySelectAndChangePrice(productDetailtState.inventories, productState.select_size, productState.select_color) : [];
-        if (!inventory[0]) {
-            return toast.error('Out of stock', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
-            });
-        }
-        if (quantity > inventory[0].quantity) {
-            toast.error('Please down quantity', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
-            });
-        } else {
-            const cartProduct: CartProductType = {
-                id: productDetailtState?.id || 0,
-                image: productDetailtState?.image || '',
-                title: productDetailtState?.title || '',
-                type: productDetailtState?.type || '',
-                description: productDetailtState?.description || '',
-                defaultPrice: productDetailtState?.defaultPrice || 0,
-                inventories: inventory,
-                category: productDetailtState?.category,
-                isActive: productDetailtState?.isActive || false,
-                isDelete: productDetailtState?.isDelete || false,
-                quantity
+        try {
+            if (inventory) {
+                const indexProductCart = state.items.findIndex(data => data.inventories.id === inventory.id);
+                //new
+                if (indexProductCart < 0) {
+                    if (quantity <= inventory.quantity) {
+                        const cartProduct: CartItemType = {
+                            id: productDetailtState?.id || 0,
+                            image: productDetailtState?.image || '',
+                            title: productDetailtState?.title || '',
+                            type: productDetailtState?.type || '',
+                            description: productDetailtState?.description || '',
+                            defaultPrice: productDetailtState?.defaultPrice || 0,
+                            inventories: inventory,
+                            category: productDetailtState?.category,
+                            isActive: productDetailtState?.isActive || false,
+                            isDelete: productDetailtState?.isDelete || false,
+                            quantity
+                        }
+                        dispatch({ type: 'CHANGE_QUANTITY_ITEM', payload: { data: cartProduct, index: indexProductCart } });
+                        toast.success('Add cart success', {
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                            transition: Bounce,
+                        });
+                    } else {
+                        toast.error('Please down quantity', {
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                            transition: Bounce,
+                        });
+                    }
+                } else {
+                    //change
+                    const dataUpdate = state.items[indexProductCart];
+                    const newQuantity = dataUpdate.quantity + quantity;
+                    if (newQuantity <= inventory.quantity) {
+                        dataUpdate.quantity = newQuantity;
+                        dispatch({ type: 'CHANGE_QUANTITY_ITEM', payload: { data: dataUpdate, index: indexProductCart } });
+                        toast.success('Add cart success', {
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                            transition: Bounce,
+                        });
+                    } else {
+                        toast.error('Please down quantity', {
+                            position: "top-right",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                            transition: Bounce,
+                        });
+                    }
+                }
             }
-            try {
-                dispatch({ type: 'ADD_ITEM', payload: cartProduct });
-                toast.success('Add cart success', {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                    transition: Bounce,
-                });
             } catch (error) {
                 console.log(error);
                 toast.error('Add cart fail', {
@@ -200,14 +221,11 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                     theme: "light",
                     transition: Bounce,
                 });
-            }
-
-
         }
     };
 
     if (loading) return <Loading></Loading>
-    if (error) return <CustomErrorPage message="...."></CustomErrorPage>
+    if (error) return <CustomErrorPage message={page('notFound')}></CustomErrorPage>
     if (productDetailtState) {
         return <>
             <ToastContainer
@@ -238,10 +256,10 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                         </div>
                         <div className="">
                             <span id="product_detail_price" className='lg:pr-3 pr-1 text-[var(--text-orange-color)] font-normal text-4xl  font-[family-name:var(--font-geist-chilanka)] '>
-                                {formatCurrency(productDetailtState.defaultPrice) ? formatCurrency(productDetailtState.defaultPrice) : formatCurrency(0)}
+                                {formatCurrency(inventory ? inventory.price : productDetailtState.defaultPrice, locale)}
                             </span>
                             <span className='line-through decoration-gray-600 font-normal text-xl  font-[family-name:var(--font-geist-chilanka)] '>
-                                {formatCurrency(240.00)}
+                                {formatCurrency(240.00, locale)}
                             </span>
                         </div>
                         <div className="flex flex-wrap pt-5">
@@ -263,7 +281,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                                         <li key={`${e.id}_color`} className=" button_silver_hover px-[5px]">
                                             <button id={`${e.id}_color`}
                                                 className={productState.select_color == e.id ? '' + BUTTON_BS_COLOR_CSS_ACTIVE : BUTTON_BS_COLOR_CSS_DEFAULT}
-                                                onClick={() => handleClick(productDetailtState, e.id, `_color`)} >
+                                                onClick={() => handleClick(e.id, `_color`)} >
                                                 <a className="text-sm">{e.title}</a>
                                             </button>
                                         </li>
@@ -284,7 +302,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                                     {productDetailtState?.sizes.map((e) => (
                                         <li key={`${e.id}_size`} className="button_silver_hover px-[5px]">
                                             <button id={`${e.id}_size`} className={productState.select_size == e.id ? BUTTON_BS_COLOR_CSS_ACTIVE : BUTTON_BS_COLOR_CSS_DEFAULT}
-                                                onClick={() => handleClick(productDetailtState, e.id, `_size`)} >
+                                                onClick={() => handleClick(e.id, `_size`)} >
                                                 <a className="text-sm">{e.title}</a>
                                             </button>
                                         </li>
@@ -295,7 +313,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                         </div>
                         <div className="flex flex-row">
                             <span id='produce_detail_stock' className='lg:pr-3 pr-1  font-bold text-xl  font-[family-name:var(--font-geist-chilanka)] '>
-                                {`0`} {p('inStock')}
+                                {inventory ? inventory.quantity : 0} {p('inStock')}
                             </span>
                         </div>
 
@@ -349,4 +367,5 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
     }
 
 }
+
 

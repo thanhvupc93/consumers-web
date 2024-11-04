@@ -7,7 +7,10 @@
   },
   "Cart": {
     "addtocart": "Add To Cart",
-    "shopnow": "Shop Now"
+    "shopnow": "Shop Now",
+    "cart": "Cart",
+    "clear": "Clear",
+    "checkout": "Continue to checkout"
   },
   "Category": {
     "all": "All",
@@ -35,6 +38,9 @@
     "defaultSorting":"Default sorting"
   },
   "Product": {
+    "title": "Title",
+    "quantity": "Quantity",
+    "price": "Price",
     "color": "Color",
     "size": "Size",
     "inStock": "in stock",
@@ -42,6 +48,34 @@
     "description": "Description",
     "additionalInformation": "Additional Information",
     "customerReviews":  "Customer Reviews"
+  },
+  "User": {
+    "fullName":  "Enter Full  Name",
+    "email":   "Enter Email Address",
+    "phone": "Enter Phone",
+    "userName": "Enter User Name",
+    "password": "Enter Password",
+    "rePassword": "Enter Confirm Password",
+    "address": "Search for a location"
+  },
+  "Order": {
+    "orderSummary": "Order Summary",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "total":"Total",
+    "buy": "Buy",
+    "qty": "Qty",
+    "canNotAddMore": "Maximum purchase",
+    "canNotSub0": "Minimum purchase",
+    "clear": "Clear Success",
+    "delete": "Delete Product Success",
+    "validateSubmitOrder": "Please check data of order",
+    "orderSuccess": "Order Success",
+    "orderError": "Something Error When Created Order"
+  },
+  "Page": {
+    "notFound": "Page Not Found",
+    "backToHome": "Back To Home"
   }
 
 }

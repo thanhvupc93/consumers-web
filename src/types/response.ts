@@ -1,5 +1,3 @@
-import { CategoryType } from "./category";
-import { ProductType } from "./product";
 
 export type PagingDto = {
     page: number;
@@ -11,6 +9,7 @@ export type PagingDto = {
 }
 
 export type ResponseCustom ={
-    data: ProductType[] | CategoryType[] | ProductType[] |  ProductType| null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    data: any;
     paging: PagingDto| null;
 }

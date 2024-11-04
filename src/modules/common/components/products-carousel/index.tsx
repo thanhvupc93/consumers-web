@@ -2,7 +2,8 @@ import { ProductType } from "@/types/product";
 import Image from "next/image";
 import BTAddCart from "../button-add-cart";
 import BTAddWishlist from "../button-add-wishlist";
-import { formatCurrency } from "@/utils/format";
+import formatCurrency from "@/utils/format";
+import { useLocale } from "next-intl";
 
 type ProductsCarouselProps = {
     listsData?: ProductType[];
@@ -10,12 +11,13 @@ type ProductsCarouselProps = {
 
 }
 export default function ProductsCarousel({ listsData, numberItem }: ProductsCarouselProps) {
+    const locale = useLocale();
     let showItem = "pb-5 pt-5 ";
     return (
         <div className="lg:pt-12 lg:pb-12">
-            <ul className="lg:flex  flex-wrap w-full align-items-center">
+            <ul className="lg:flex  flex-wrap w-full align-items-center ">
                 {listsData?.map((item: ProductType) => (
-                    <div key={`ProductsCarousel_div_${item.id}`} className={numberItem === 3 ? showItem += "lg:w-[33%]" : showItem += "lg:w-[25%] "}>
+                    <div key={`ProductsCarousel_div_${item.id}`} className={numberItem === 3 ? showItem += "lg:w-[33%] " : showItem += "lg:w-[25%] "}>
                         <li key={`ProductsCarousel_li_${item.id}`}>
                             <div className="pr-3" >
                                 <a className="lg:text-xl text-sm" href={`product-detail/${item.id}`}>
@@ -25,7 +27,7 @@ export default function ProductsCarousel({ listsData, numberItem }: ProductsCaro
                                     <h3 className=" lg:text-3xl text-2xl font-[family-name:var(--font-geist-chilanka)] ">{item.title}</h3>
                                 </div>
                                 <div className="text-left mb-2 ">
-                                    <a className="text-[var(--text-orange-color)] lg:text-xl  text-sm">{formatCurrency(item.defaultPrice) ? formatCurrency(item.defaultPrice) : formatCurrency(0)}</a>
+                                    <a className="text-[var(--text-orange-color)] lg:text-xl  text-sm">{formatCurrency(item.defaultPrice, locale) ? formatCurrency(item.defaultPrice, locale) : formatCurrency(0, locale)}</a>
                                 </div>
                                 <div className="flex font-[family-name:var(--font-geist-chilanka)] ">
                                     <div className="w-[60%] pr-4">

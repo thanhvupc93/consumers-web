@@ -2,12 +2,14 @@
 import Link from "next/link";
 import "@/app/globals.css";
 import { Bounce, toast, ToastContainer } from "react-toastify";
+import { useTranslations } from "next-intl";
 
 type ErorProps = {
     message: string;
 }
 
 export default function CustomErrorPage({ message }: ErorProps) {
+    const p = useTranslations('Page');
     toast.error(message, {
         position: "top-right",
         autoClose: 5000,
@@ -24,9 +26,8 @@ export default function CustomErrorPage({ message }: ErorProps) {
     return <>
         <ToastContainer />
         <main className="text-center my-40 font-normal text-xl font-[family-name:var(--font-geist-chilanka)] ">
-            <h1>404 - Page Not Found</h1>
-            <p>Xin lỗi, trang bạn tìm kiếm không tồn tại.</p>
-            <Link className="text-blue underline underline-offset-2" href="/">Quay về trang chính
+            <h1>404 - {p('notFound')}</h1>
+            <Link className="text-blue underline underline-offset-2" href="/">{p('backToHome')}
             </Link>
         </main>
     </>

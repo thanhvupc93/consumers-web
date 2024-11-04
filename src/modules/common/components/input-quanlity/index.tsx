@@ -8,17 +8,17 @@ interface InputQuanlityProps {
 
 export default function InputQuanlity({ changeQuantity, value }: InputQuanlityProps) {
 
-    function onChangeQuantity(data: string) {
-        changeQuantity(Number(data));
+    function onChangeQuantity(data: number) {
+        changeQuantity(data);
     }
 
     function onPlusQuantity() {
-        changeQuantity(value + 1);
+        changeQuantity(Number(value) + 1);
     }
 
     function onSubstraction() {
         if (value !== 0) {
-            changeQuantity(value - 1);
+            changeQuantity(Number(value) - 1);
         }
     }
     return <>
@@ -29,8 +29,8 @@ export default function InputQuanlity({ changeQuantity, value }: InputQuanlityPr
                 </button>
             </div>
             <div className="">
-                <input className={' input_custom p-2  max-h-4 max-w-20 mx-1 button_mini'} value={value} type="number" defaultValue={1}
-                    onChange={(e) => onChangeQuantity(e.target.value)}></input>
+                <input className={' input_custom p-2  max-h-4 max-w-20 mx-1 button_mini'} value={value} type="number"
+                    onChange={(e) => onChangeQuantity(Number(e.target.value))}></input>
             </div>
 
             <div className="button_silver_hover">

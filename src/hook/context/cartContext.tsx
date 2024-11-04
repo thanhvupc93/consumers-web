@@ -8,8 +8,11 @@ interface CartState {
 }
 
 interface CartAction {
-    type: 'ADD_ITEM' | 'REMOVE_ITEM' | 'CLEAR_CART';
-    payload?: CartItemType;
+    type: 'ADD_ONE_ITEM' | 'SUB_ONE_ITEM' | 'CHANGE_QUANTITY_ITEM' | 'REMOVE_ITEM' | 'CLEAR_CART';
+    payload: {
+        data: CartItemType
+        index: number
+    };
 }
 
 const initialState: CartState = {
@@ -22,26 +25,59 @@ const CartContext = createContext<{
 }>({ state: initialState, dispatch: () => null });
 
 const cartReducer = (state: CartState, action: CartAction): CartState => {
-
     switch (action.type) {
-        case 'ADD_ITEM': {
-            const existingItem = state.items.find(item => item.inventories[0].id === action.payload?.inventories[0].id);
-            if (existingItem) {
+        case 'ADD_ONE_ITEM': {
+            if (action.payload.index >= 0) {
                 return {
                     ...state,
-                    items: state.items.map(item =>
-                        item.inventories[0].id === action.payload?.inventories[0].id
-                            ? { ...item, quantity: item.quantity + 1 }
-                            : item
+                    items: state.items.map(item => {
+                        if (item.inventories.id === action.payload.data.inventories.id) {
+                            return { ...item, quantity: item.quantity + 1 }
+                        } else {
+                            return item
+                        }
+                    }
                     ),
                 };
             }
-            return { ...state, items: [...state.items, action.payload] };
+            return { ...state, items: [...state.items, action.payload.data] };
+        }
+        case 'SUB_ONE_ITEM': {
+            if (action.payload.index >= 0) {
+                return {
+                    ...state,
+                    items: state.items.map(item => {
+                        if (item.inventories.id === action.payload.data?.inventories.id) {
+                            return { ...item, quantity: item.quantity - 1 }
+                        } else {
+                            return item
+                        }
+                    }
+                    ),
+                };
+            }
+            return { ...state, items: [...state.items, action.payload.data] };
+        }
+        case 'CHANGE_QUANTITY_ITEM': {
+            if (action.payload.index >= 0) {
+                return {
+                    ...state,
+                    items: state.items.map(item => {
+                        if (item.inventories.id === action.payload.data?.inventories.id) {
+                            return { ...item, quantity: action.payload.data.quantity }
+                        } else {
+                            return item
+                        }
+                    }
+                    ),
+                };
+            }
+            return { ...state, items: [...state.items, action.payload.data] };
         }
         case 'REMOVE_ITEM':
             return {
                 ...state,
-                items: state.items.filter(item => item.id !== action.payload.id),
+                items: state.items.filter(item => item.inventories.id !== action.payload.data?.inventories.id),
             };
         case 'CLEAR_CART':
             return { items: [] };
@@ -50,9 +86,11 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
     }
 };
 
-export const CartProvider = ({ children }) => {
-    const initialState = { items: [] };
+type Props = {
+    children: React.ReactNode; // This allows any valid React node
+};
 
+export const CartProvider = ({ children }: Props) => {
     const [state, dispatch] = useReducer(cartReducer, initialState, (initial) => {
         const storedCart = localStorage.getItem('cart') || "";
         return storedCart ? JSON.parse(storedCart) : initial;

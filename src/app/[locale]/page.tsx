@@ -33,6 +33,7 @@ export default function Home() {
           await fetchAPI(`/${process.env.NEXT_PUBLIC_ALL_CATEGORY_URL}`, 'GET', null),
           await fetchAPI(`/${process.env.NEXT_PUBLIC_PRODUCT_SEARCH_BY_CATEROGY_URL}/2`, 'GET', null),
         ]);
+
         const homecontext: HomeContextType = {
           allCategory: responses[1].data,
           allProduct: responses[0].data

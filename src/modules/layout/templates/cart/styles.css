@@ -1,0 +1,84 @@
+.background {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  /* width: 500px; */
+  background: #fff;
+  z-index: 10;
+}
+/* 
+.cart_nav {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 500px;
+} */
+
+.cart_ul {
+  right: 10px;
+  padding: 0px;
+  position: fixed;
+  /* top: 50px; */
+  align-items: center;
+  /* width: 480px; */
+  z-index: 11;
+}
+
+.cart_li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  /* cursor: pointer; */
+  z-index: 12;
+}
+
+.li_table{
+  border-top: 1px solid rgba(0, 0, 0, 0.2); /* Viền trên mờ */
+  border-left: 1px solid rgba(0, 0, 0, 0.2); /* Viền trái mờ */
+  border-right: 1px solid rgba(0, 0, 0, 0.2); /* Viền phải mờ */
+  border-bottom: none; /* Không có viền dưới */
+  padding: 16px; /* Khoảng đệm */
+  background-color: white; /* Màu nền */
+}
+.li_table_boot{
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 16px; /* Khoảng đệm */
+  background-color: white; /* Màu nền */
+  /* width: 480px; */
+}
+
+.icon_placeholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  flex: 40px 0;
+  margin-right: 20px;
+  z-index: 14;
+}
+
+.text_placeholder {
+  border-radius: 5px;
+  width: 200px;
+  height: 20px;
+  flex: 1;
+}
+
+.refresh {
+  padding: 10px;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  width: 20px;
+  height: 20px;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+

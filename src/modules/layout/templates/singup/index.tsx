@@ -1,12 +1,14 @@
 import { UserType } from "@/types/user";
 import { CSS_INPUT_DEFAULT } from "@/utils/constants_css";
+import { checkValidateEmail, checkValidatePassword, checkValidatePhone } from "@/utils/validate";
 import { useState } from "react";
 import { ToastContainer } from "react-toastify";
-
+import { useTranslations } from "next-intl";
 interface SignUpCommonProps {
     onSubmit: (data: UserType) => void
 }
 export default function SignUpCommon({ onSubmit }: SignUpCommonProps) {
+    const u = useTranslations('User');
     const [validateEmail, setValidateEmail] = useState<boolean>(false);
     const [validatePhone, setValidatePhone] = useState<boolean>(false);
     const [validatePassword, setValidatePassword] = useState<boolean>(false);
@@ -15,33 +17,6 @@ export default function SignUpCommon({ onSubmit }: SignUpCommonProps) {
         userName: '',
         password: ''
     });
-    const checkValidateEmail = (email: string) => {
-        const expression: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-        return expression.test(email);
-    };
-    const checkValidatePhone = (phone: string) => {
-        const expression: RegExp = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
-        if (phone.match(/^\d{10}$/g)) {
-            return expression.test(phone)
-
-        } else return false;
-    };
-
-    const checkValidatePassword = (password: string): boolean => {
-        const minLength = 8;
-        const hasLowercase = /[a-z]/.test(password);
-        const hasUppercase = /[A-Z]/.test(password);
-        const hasDigit = /\d/.test(password);
-        const hasSpecialChar = /[!@#$%^&*]/.test(password);
-
-        return (
-            password.length >= minLength &&
-            hasLowercase &&
-            hasUppercase &&
-            hasDigit &&
-            hasSpecialChar
-        );
-    }
 
     const checkSubmit = () => {
         if (signUpData.password != signUpData.rePassword || validateEmail || validatePhone) {
@@ -122,7 +97,7 @@ export default function SignUpCommon({ onSubmit }: SignUpCommonProps) {
                     <input
                         type='text'
                         className='input_custom w-[100%] text-left pl-5 pt-5 pb-5'
-                        placeholder='Enter Full Name'
+                        placeholder={u('fullName')}
                         onChange={(e) => onChangeData(e.target.value, 1)}
                     ></input>
                 </div>
@@ -131,7 +106,7 @@ export default function SignUpCommon({ onSubmit }: SignUpCommonProps) {
                     <input
                         type='text'
                         className={validateEmail ? `input_custom_error ${CSS_INPUT_DEFAULT}` : `input_custom ${CSS_INPUT_DEFAULT}`}
-                        placeholder='Enter Email Address'
+                        placeholder={u('email')}
                         onChange={(e) => onChangeData(e.target.value, 2)}
                     ></input>
                 </div>
@@ -140,7 +115,7 @@ export default function SignUpCommon({ onSubmit }: SignUpCommonProps) {
                     <input
                         type='text'
                         className={validatePhone ? `input_custom_error ${CSS_INPUT_DEFAULT}` : `input_custom ${CSS_INPUT_DEFAULT}`}
-                        placeholder='Enter Phone'
+                        placeholder={u('phone')}
                         onChange={(e) => onChangeData(e.target.value, 3)}
                     ></input>
                 </div>
@@ -149,7 +124,7 @@ export default function SignUpCommon({ onSubmit }: SignUpCommonProps) {
                     <input
                         type='text'
                         className='input_custom w-[100%] text-left pl-5 pt-5 pb-5'
-                        placeholder='Enter User Name'
+                        placeholder={u('userName')}
                         onChange={(e) => onChangeData(e.target.value, 4)}
                     ></input>
                 </div>
@@ -158,7 +133,7 @@ export default function SignUpCommon({ onSubmit }: SignUpCommonProps) {
                     <input
                         type='password'
                         className={validatePassword ? `input_custom_error ${CSS_INPUT_DEFAULT}` : `input_custom ${CSS_INPUT_DEFAULT}`}
-                        placeholder='Enter Password'
+                        placeholder={u('password')}
                         onChange={(e) => onChangeData(e.target.value, 5)}
                     ></input>
                 </div>
@@ -167,7 +142,7 @@ export default function SignUpCommon({ onSubmit }: SignUpCommonProps) {
                     <input
                         type='password'
                         className={validateConfirmPassword ? `input_custom_error ${CSS_INPUT_DEFAULT}` : `input_custom ${CSS_INPUT_DEFAULT}`}
-                        placeholder='Enter Confirm Password'
+                        placeholder={u('rePassword')}
                         onChange={(e) => onChangeData(e.target.value, 6)}
                     ></input>
                 </div>

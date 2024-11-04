@@ -62,7 +62,9 @@ export default function ProductList() {
         const response: ResponseCustom = await fetchAPI(`/${process.env.NEXT_PUBLIC_ALL_PRODUCT_URL}/${key}`, 'GET', null);
         if (response) {
           setProducts(response.data)
-          setPaging(response.paging)
+          if (response.paging) {
+            setPaging(response.paging)
+          }
         }
       } catch (err) {
         setProducts([]);

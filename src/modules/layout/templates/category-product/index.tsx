@@ -15,7 +15,9 @@ export default function CategoryProduct({ title, data }: CategoryProductProps) {
 
     // detect window screen width function
     if (useWindowSize().width < 1024) {
-        data = data.slice(0, 1);
+        if (data && data.length > 2) { 
+            data = data.slice(0, 1);
+        }
     }
 
     return (

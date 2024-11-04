@@ -1,6 +1,6 @@
 "use client"
-import React from "react"
-import { useKeenSlider } from "keen-slider/react"
+import React, { MutableRefObject } from "react"
+import { KeenSliderInstance, KeenSliderPlugin, useKeenSlider } from "keen-slider/react"
 import "keen-slider/keen-slider.min.css"
 import "./styles.css"
 import Image from "next/image";

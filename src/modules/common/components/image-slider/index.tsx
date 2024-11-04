@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import React, { useState } from "react"
 import { useKeenSlider } from "keen-slider/react"
@@ -8,7 +9,8 @@ import Banner2 from "@/../public/images/banner-img2.png";
 import Banner3 from "@/../public/images/banner-img3.png";
 import "./styles.css"
 
-const AdaptiveHeight = (slider) => {
+
+const AdaptiveHeight = (slider: any) => {
     function updateHeight() {
         slider.container.style.height =
             slider.slides[slider.track.details.rel].offsetHeight + "px"
@@ -55,21 +57,16 @@ export default function Slider({ width, height }: sizeImage) {
                     <>
                         <Arrow
                             left
-                            onClick={(e) =>
+                            onClick={(e: { stopPropagation: () => any; }) =>
                                 e.stopPropagation() || instanceRef.current?.prev()
                             }
                             disabled={currentSlide === 0}
                         />
 
                         <Arrow
-                            onClick={(e) =>
-                                e.stopPropagation() || instanceRef.current?.next()
-                            }
-                            disabled={
-                                currentSlide ===
-                                instanceRef.current.track.details.slides.length - 1
-                            }
-                        />
+                            onClick={(e: { stopPropagation: () => any; }) => e.stopPropagation() || instanceRef.current?.next()}
+                            disabled={currentSlide ===
+                                instanceRef.current.track.details.slides.length - 1} left={undefined} />
                     </>
                 )}
             </div>
@@ -95,7 +92,7 @@ export default function Slider({ width, height }: sizeImage) {
         </>
     )
 }
-function Arrow(props) {
+function Arrow(props: { disabled: any; onClick: React.MouseEventHandler<SVGSVGElement> | undefined; left: any; }) {
     const disabled = props.disabled ? " arrow--disabled" : ""
     return (
         <svg

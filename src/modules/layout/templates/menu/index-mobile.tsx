@@ -90,7 +90,8 @@ const NavRighttMenuMobile = () => {
 
 export default NavRighttMenuMobile;
 
-const MenuToggle = ({ toggle }: { toggle: never }) => (
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const MenuToggle = ({ toggle }: { toggle: any }) => (
     <button
         onClick={toggle}
         className="rounded-md border border-[--foreground] border-slate-300 absolute pointer-events-auto z-[4]"
@@ -122,6 +123,7 @@ const MenuToggle = ({ toggle }: { toggle: never }) => (
     </button>
 );
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Path = (props: any) => (
     <motion.path
         fill="transparent"
@@ -223,6 +225,7 @@ const variants = {
     },
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const useDimensions = (ref: any) => {
     const dimensions = useRef({ width: 0, height: 0 });
 

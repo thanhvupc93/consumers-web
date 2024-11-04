@@ -8,7 +8,7 @@ export type CartItemType = {
   type: string
   description: string;
   defaultPrice: number;
-  inventories: InventoryType[];
+  inventories: InventoryType;
   category?: CategoryType;
   isActive: boolean;
   isDelete: boolean;

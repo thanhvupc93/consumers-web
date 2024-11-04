@@ -8,9 +8,10 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import FooterImage from "@/modules/layout/templates/footer-image";
 config.autoAddCss = false;
-import { CartProvider } from '@/./hook/context/CartContext';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
+import { UserProvider } from "@/hook/context/userContext";
+import { CartProvider } from "@/hook/context/cartContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -57,14 +58,17 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${geistChilanka.variable}  ${geistMontserrat.variable} antialiased`}
       >
         <NextIntlClientProvider messages={messages}>
-          <Nav></Nav>
-          <NavMobile></NavMobile>
-          <CartProvider>{children}</CartProvider>
-          <FooterImage></FooterImage>
-          <Footer></Footer>
+          <UserProvider>
+            <CartProvider>
+              <Nav></Nav>
+              <NavMobile></NavMobile>
+              {children}
+              <FooterImage></FooterImage>
+              <Footer></Footer>
+            </CartProvider>
+          </UserProvider>
         </NextIntlClientProvider>
       </body>
-
     </html>
 
 

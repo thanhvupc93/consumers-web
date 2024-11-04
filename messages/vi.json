@@ -7,7 +7,10 @@
   },
   "Cart": {
     "addtocart": "Thêm Giỏ Hàng",
-    "shopnow": "Mua Ngay"
+    "shopnow": "Mua Ngay",
+    "cart": "Giỏ Hàng",
+    "clear": "Xóa Hết",
+    "checkout": "Tiếp tục thanh toán"
   },
   "Category": {
     "all": "Tất Cả",
@@ -35,6 +38,9 @@
     "defaultSorting":"Sắp xếp mặc định" 
   },
   "Product": {
+    "title": "Tên",
+    "quantity": "Số Lượng",
+    "price": "Giá",
     "color": "Màu",
     "size": "Kích cỡ",
     "inStock": "tồn kho",
@@ -42,5 +48,33 @@
     "description": "Mô Tả",
     "additionalInformation": "Thông tin bổ sung",
     "customerReviews":  "Đánh giá người dùng"
+  },
+   "User": {
+    "fullName":  "Nhập tên",
+    "email":   "Nhập thư điện  tử",
+    "phone": "Nhập Số Điện Thoại",
+    "userName": "Nhập Tên Đăng Nhập",
+    "password": "Nhập Mật Khẩu",
+    "rePassword": "Nhập Lại Mật Khẩu",
+    "address": "Tìm Địa Chỉ"
+  },
+  "Order": {
+    "orderSummary": "Tóm Tắt Đơn Hàng",
+    "subtotal": "Tạm Tính",
+    "shipping": "Vận Chuyển",
+    "total":"Tổng Cộng",
+    "buy": "Mua Hàng",
+    "qty": "SL",
+    "canNotAddMore": "Số Lượng Tối Đa",
+    "canNotSub0": "Số Lượng Tối Thiểu",
+    "clear": "Xóa Giỏ Hàng Thành Công",
+    "delete": "Xóa Sản Phẩm Thành Công",
+    "validateSubmitOrder": "Kiểm Tra Thông Tin Đơn Hàng",
+    "orderSuccess": "Đặt Hàng Thành Công",
+    "orderError": "Có Lỗi Khi Đặt Hàng "
+  },
+  "Page": {
+    "notFound": "Xin lỗi, trang bạn tìm kiếm không tồn tại.",
+    "backToHome": "Quay về trang chính"
   }
 }

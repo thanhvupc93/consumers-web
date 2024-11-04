@@ -2,29 +2,26 @@
 import Image from "next/image";
 import NavMenu from "@/modules/layout/templates/menu/index"
 import InputSearch from "@/modules/common/components/input-search";
-import jwt from 'jsonwebtoken';
-import { TokenType } from "@/types/token";
-import { useEffect, useState } from "react";
 import Logo from "@/../../public/images/logo.jpg";
 import { useTranslations } from 'next-intl';
+import { useUser } from "@/hook/context/userContext";
+import { useEffect, useState } from "react";
 
 export default function Nav() {
-  const [data, setData] = useState<TokenType>();
+  const [isSticky, setIsSticky] = useState(false);
+
+  const handleScroll = () => {
+    setIsSticky(window.scrollY > 100);
+  };
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+  const { state } = useUser();
   const t = useTranslations('MenuBar');
   const s = useTranslations('Search');
-  useEffect(() => {
-    const checkStorage = () => {
-      const newToken = localStorage.getItem('access_token') || '';
-      const decoded: TokenType = jwt.decode(newToken);
-      if (decoded !== data) {
-        setData(decoded);
-      }
-    };
-    const intervalId = setInterval(checkStorage, 600); // Check every 100ms
-    return () => clearInterval(intervalId); // Cleanup on unmount
-  }, [data]);
-
-
   return (
     <>
       <div className="hidden lg:block">
@@ -41,7 +38,7 @@ export default function Nav() {
                 {t('phone')}: 
               </span></div>
               <div><span className='font-normal text-xl text-right font-[family-name:var(--font-geist-chilanka)] '>
-                {data?.phone || ""}
+                {state?.phone || ""}
               </span></div>
             </div>
             <div className="w-[15%] pt-3 pb-3 text-right">
@@ -49,16 +46,17 @@ export default function Nav() {
                 {t('email')}: 
               </span></div>
               <div><span className='font-normal text-xl text-right font-[family-name:var(--font-geist-chilanka)] '>
-                {data?.email || ""}
+                {state?.email || ""}
               </span></div>
             </div>
           </div>
         </main>
         <div className='bg-bottom border border-[--bs-light-border-subtle]'></div>
+        <div className={isSticky ? 'menu fixed top-0 left-0 right-0 z-10 align-items-center py-3' : 'menu relative align-items-center py-3'}>
         <main >
-          <NavMenu ></NavMenu>
+            <NavMenu ></NavMenu>
         </main >
-        
+        </div>
       </div>
     </>
   );
