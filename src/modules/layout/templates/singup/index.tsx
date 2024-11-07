@@ -1,7 +1,7 @@
 import { UserType } from "@/types/user";
 import { CSS_INPUT_DEFAULT } from "@/constants/css";
 import { checkValidateEmail, checkValidatePassword, checkValidatePhone } from "@/utils/validate";
-import { SetStateAction, useEffect, useState } from "react";
+import { SetStateAction, useCallback, useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import { useTranslations } from "next-intl";
 import { MultiValue } from 'react-select';
@@ -12,14 +12,12 @@ import Loading from "@/app/[locale]/loading";
 import { checkIsAdmin } from "@/utils/validate";
 import { useUser } from "@/hook/context/userContext";
 import { USER_ROLE_USER } from "@/constants/data";
+import { SelectDataType } from "@/types/SelectData";
+import RadioTrueFalse from "@/modules/common/components/radio-true-false";
 
 interface SignUpCommonProps {
     id: number;
     onSubmit: (data: UserType) => void
-}
-interface SelectData {
-    value: string;
-    label: string
 }
 
 export default function SignUpCommon({ onSubmit, id }: SignUpCommonProps) {
@@ -38,20 +36,12 @@ export default function SignUpCommon({ onSubmit, id }: SignUpCommonProps) {
         userName: '',
         password: ''
     });
-    const [options, setOptions] = useState<SelectData[]>([]);
-    const [selectedOptions, setSelectedOptions] = useState<MultiValue<SelectData>>([]);
-    const handleChange = (selected: MultiValue<SelectData>) => {
+    const [options, setOptions] = useState<SelectDataType[]>([]);
+    const [selectedOptions, setSelectedOptions] = useState<MultiValue<SelectDataType>>([]);
+    const handleChange = (selected: MultiValue<SelectDataType>) => {
         setSelectedOptions(selected);
     };
-
     const [selectedValue, setSelectedValue] = useState('');
-
-    const handleChangeActive = (event: { target: { value: SetStateAction<string>; }; }) => {
-        const value: string = String(event.target.value);
-        setSelectedValue(value);
-        onChangeData(value, 7);
-    };
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -59,8 +49,8 @@ export default function SignUpCommon({ onSubmit, id }: SignUpCommonProps) {
                 const response = await fetchAPI(`/${process.env.NEXT_PUBLIC_ALL_ROLE_URL}/`, 'GET', null);
                 if (response.data) {
                     const formattedData = response.data.map((item: RoleType) => ({
-                        value: item.id,    // 'id' should be replaced with the appropriate property
-                        label: item.name   // 'name' should be replaced with the appropriate property
+                        value: item.id,
+                        label: item.name 
                     }));
                     setOptions(formattedData);
                     setLoading(false);
@@ -73,10 +63,10 @@ export default function SignUpCommon({ onSubmit, id }: SignUpCommonProps) {
                         data.rePassword = data.password;
                         // set select role
                         if (data.roles) {
-                            const formattedData: SelectData[] = data.roles?.map((item: RoleType) => {
-                                const data: SelectData = {
-                                    value: String(item.id),    // 'id' should be replaced with the appropriate property
-                                    label: item.name   // 'name' should be replaced with the appropriate property
+                            const formattedData: SelectDataType[] = data.roles?.map((item: RoleType) => {
+                                const data: SelectDataType = {
+                                    value: String(item.id),
+                                    label: item.name
                                 }
                                 return data
                             }
@@ -88,7 +78,6 @@ export default function SignUpCommon({ onSubmit, id }: SignUpCommonProps) {
                             }
                             setSelectedOptions(formattedData);
                         }
-
                         setSignUpData(data)
                     }
                 }
@@ -99,6 +88,17 @@ export default function SignUpCommon({ onSubmit, id }: SignUpCommonProps) {
         };
         fetchData();
     }, [id]);
+
+    const handleChangeActive = useCallback((value: string) => {
+        const data: UserType = signUpData;
+        setSelectedValue(value);
+        if (value === 'false') {
+            data.isActive = false;
+        } else data.isActive = true;
+        setSignUpData(data);
+        setCount(prevCount => prevCount + 1);
+    }, [signUpData]);
+
 
     const checkSubmit = () => {
         if (signUpData.password != signUpData.rePassword || validateEmail || validatePhone) {
@@ -167,13 +167,6 @@ export default function SignUpCommon({ onSubmit, id }: SignUpCommonProps) {
                     setSignUpData(data);
                     setCount(prevCount => prevCount + 1);
                     break;
-                case 7:
-                    if (value === 'false') {
-                        data.isActive = false;
-                    } else data.isActive = true;
-                    setSignUpData(data);
-                    setCount(prevCount => prevCount + 1);
-                    break;
                 default:
                     console.log(count)
                     setSignUpData(data);
@@ -205,118 +198,104 @@ export default function SignUpCommon({ onSubmit, id }: SignUpCommonProps) {
     };
     if (loading) return <Loading></Loading>
     if (!loading) {
-    return <>
-        <ToastContainer />
-        <form onSubmit={handleSubmitSingup}>
-            <div className="w-[60%] mx-auto  pt-5">
-                <div className="w-[100%] h-[100%] mx-auto pt-5">
-                    <input
-                        type='text'
-                        className='input_custom w-[100%] text-left pl-5 pt-5 pb-5'
-                        placeholder={u('fullName')}
-                        value={signUpData.fullName}
-                        onChange={(e) => onChangeData(e.target.value, 1)}
-                    ></input>
-                </div>
+        return <>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light" />
 
-                <div className="w-[100%] h-[100%] mx-auto pt-5">
-                    <input
-                        type='text'
-                        className={validateEmail ? `input_custom_error ${CSS_INPUT_DEFAULT}` : `input_custom ${CSS_INPUT_DEFAULT}`}
-                        placeholder={u('email')}
-                        value={signUpData.email}
-                        onChange={(e) => onChangeData(e.target.value, 2)}
-                    ></input>
-                </div>
+            <form onSubmit={handleSubmitSingup}>
+                <div className="lg:w-[60%] w-[90%] mx-auto pt-1">
+                    <div className="w-[100%] h-[100%] mx-auto pt-3">
+                        <input
+                            type='text'
+                            className='input_custom w-[100%] text-left pl-5 pt-3 pb-3'
+                            placeholder={u('fullName')}
+                            value={signUpData.fullName}
+                            onChange={(e) => onChangeData(e.target.value, 1)}
+                        ></input>
+                    </div>
 
-                <div className="w-[100%] h-[100%] mx-auto pt-5">
-                    <input
-                        type='text'
-                        className={validatePhone ? `input_custom_error ${CSS_INPUT_DEFAULT}` : `input_custom ${CSS_INPUT_DEFAULT}`}
-                        placeholder={u('phone')}
-                        value={signUpData.phone}
-                        onChange={(e) => onChangeData(e.target.value, 3)}
-                    ></input>
-                </div>
+                    <div className="w-[100%] h-[100%] mx-auto pt-3">
+                        <input
+                            type='text'
+                            className={validateEmail ? `input_custom_error ${CSS_INPUT_DEFAULT}` : `input_custom ${CSS_INPUT_DEFAULT}`}
+                            placeholder={u('email')}
+                            value={signUpData.email}
+                            onChange={(e) => onChangeData(e.target.value, 2)}
+                        ></input>
+                    </div>
 
-                <div className="w-[100%] h-[100%] mx-auto pt-5">
-                    <input
-                        type='text'
-                        className='input_custom w-[100%] text-left pl-5 pt-5 pb-5'
-                        placeholder={u('userName')}
-                        value={signUpData.userName}
-                        onChange={(e) => onChangeData(e.target.value, 4)}
-                    ></input>
-                </div>
+                    <div className="w-[100%] h-[100%] mx-auto pt-3">
+                        <input
+                            type='text'
+                            className={validatePhone ? `input_custom_error ${CSS_INPUT_DEFAULT}` : `input_custom ${CSS_INPUT_DEFAULT}`}
+                            placeholder={u('phone')}
+                            value={signUpData.phone}
+                            onChange={(e) => onChangeData(e.target.value, 3)}
+                        ></input>
+                    </div>
 
-                <div className="w-[100%] h-[100%] mx-auto pt-5">
-                    <input
-                        type='password'
-                        className={validatePassword ? `input_custom_error ${CSS_INPUT_DEFAULT}` : `input_custom ${CSS_INPUT_DEFAULT}`}
-                        placeholder={u('password')}
-                        value={signUpData.password}
-                        onChange={(e) => onChangeData(e.target.value, 5)}
-                    ></input>
-                </div>
+                    <div className="w-[100%] h-[100%] mx-auto pt-3">
+                        <input
+                            type='text'
+                            className='input_custom w-[100%] text-left pl-5 pt-3 pb-3'
+                            placeholder={u('userName')}
+                            value={signUpData.userName}
+                            onChange={(e) => onChangeData(e.target.value, 4)}
+                        ></input>
+                    </div>
 
-                <div className="w-[100%] h-[100%] mx-auto pt-5">
-                    <input
-                        type='password'
-                        className={validateConfirmPassword ? `input_custom_error ${CSS_INPUT_DEFAULT}` : `input_custom ${CSS_INPUT_DEFAULT}`}
-                        placeholder={u('rePassword')}
-                        value={signUpData.rePassword}
-                        onChange={(e) => onChangeData(e.target.value, 6)}
-                    ></input>
-                </div>
-                {!checkIsAdmin(state.roles)
-                    ?
-                    <>
-                        <div className="flex w-[100%] pt-5 pb-5">
-                            <div className="flex w-[50%]">{au('isActive')}: </div>
-                            <div className="flex w-[50%]">
-                                <label className="flex w-[50%]">
-                                    <input
-                                        type="radio"
-                                        name="yesno"
-                                        value="true"
-                                        checked={selectedValue === 'true'}
-                                        onChange={handleChangeActive}
-                                    />
-                                    {au('yes')}
-                                </label>
-                                <label className="flex w-[50%]">
-                                    <input
-                                        type="radio"
-                                        name="yesno"
-                                        value="false"
-                                        checked={selectedValue === 'false'}
-                                        onChange={handleChangeActive}
-                                    />
-                                    {au('no')}
-                                </label>
+                    <div className="w-[100%] h-[100%] mx-auto pt-3">
+                        <input
+                            type='password'
+                            className={validatePassword ? `input_custom_error ${CSS_INPUT_DEFAULT}` : `input_custom ${CSS_INPUT_DEFAULT}`}
+                            placeholder={u('password')}
+                            value={signUpData.password}
+                            onChange={(e) => onChangeData(e.target.value, 5)}
+                        ></input>
+                    </div>
+
+                    <div className="w-[100%] h-[100%] mx-auto pt-3">
+                        <input
+                            type='password'
+                            className={validateConfirmPassword ? `input_custom_error ${CSS_INPUT_DEFAULT}` : `input_custom ${CSS_INPUT_DEFAULT}`}
+                            placeholder={u('rePassword')}
+                            value={signUpData.rePassword}
+                            onChange={(e) => onChangeData(e.target.value, 6)}
+                        ></input>
+                    </div>
+                    {!checkIsAdmin(state.roles)
+                        ?
+                        <>
+                            <div className=" pt-3 ">
+                                <RadioTrueFalse selectValue={selectedValue} changeRadio={handleChangeActive}></RadioTrueFalse>
                             </div>
-
-                        </div>
-
-                        <div className="w-[100%] h-[100%] mx-auto pt-5 pb-5">
-                            <Select
-                                isMulti
-                                name="fruits"
-                                options={options}
-                                value={selectedOptions}
-                                onChange={handleChange}
-                                placeholder={au('choseRoles')} />
-                        </div></>
-                    : <div className="w-[100%] h-[100%] mx-auto pt-5 pb-5"></div>
-                }
-
-                <button className="uppercase rounded-md  w-full h-16
+                            <div className="w-[100%] h-[100%] mx-auto pt-3 pb-3">
+                                <Select
+                                    isMulti
+                                    name="roless"
+                                    options={options}
+                                    value={selectedOptions}
+                                    onChange={handleChange}
+                                    placeholder={au('choseRoles')} />
+                            </div></>
+                        : <div className="w-[100%] h-[100%] mx-auto pt-3 pb-3"></div>
+                    }
+                    <button className="uppercase rounded-md  w-full h-16
                         border border-[--foreground] bg-[var(--text-o-secondary-color)] border-slate-300 cursor-pointer hover:bg-[var(--foreground)] text-[var(--text-white-color)]">
-                    <a className="lg:text-xl text-sm  ">{"sing up"}</a>
-                </button>
-            </div>
-        </form>
-    </>
-}
+                        <a className="lg:text-xl text-sm  ">{"sing up"}</a>
+                    </button>
+                </div>
+            </form>
+        </>
+    }
 
 }

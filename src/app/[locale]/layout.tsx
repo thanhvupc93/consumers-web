@@ -25,7 +25,8 @@ const geistMono = localFont({
 });
 
 const geistChilanka = localFont({
-  src: "./fonts/Chilanka-Regular.woff",
+  // src: "./fonts/Chilanka-Regular.woff",
+  src: "./fonts/GeistVF.woff",
   variable: "--font-geist-chilanka",
   weight: "100 900",
 });

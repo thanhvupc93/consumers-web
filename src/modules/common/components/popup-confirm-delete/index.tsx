@@ -16,7 +16,6 @@ type ModalProps = {
 const ModalCOnfirmDelete = ({ isOpen, onClose, onDelete, message, name }: ModalProps) => {
     const u = useTranslations('Admin_User');
     if (!isOpen) return null; // Don't render if the modal is not open
-    console.log('name', name)
     return (
         <>
             <div className="overlay">

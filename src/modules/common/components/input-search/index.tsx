@@ -17,17 +17,17 @@ export default function InputSearch({ text, changeSearch }: InputSearchProps) {
     );
 
     return <>
-        <div className='h-[80%] rounded-md border border-[--bs-light-border-subtle] border-slate-300 pr-4 pl-4 flex '>
+        <div className='h-[80%] w-[100%]  rounded-md border border-[--bs-light-border-subtle] border-slate-300 pr-4 pl-4 flex '>
             <input
                 type='text'
-                className='w-[95%] text-left pl-5 pt-5 pb-5 outline-none'
+                className='w-[95%] text-left pt-5 pb-5 outline-none'
                 placeholder={text}
                 onChange={(e) => debounced(e.target.value)}
             ></input>
             <div>
             </div>
             <svg
-                className='justify-center mt-4 text-right'
+                className='justify-center mt-3 text-right'
                 xmlns='http://www.w3.org/2000/svg'
                 width='24'
                 height='24'

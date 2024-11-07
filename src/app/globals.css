@@ -247,6 +247,7 @@ h3 {
   width: 700px;
   max-width: 90%;
   text-align: center; 
+   overflow-y: auto; 
 }
 
 .modal {
@@ -270,11 +271,19 @@ table {
 
 }
 
+.table-container {
+  max-width: 100%;
+  overflow-x: auto; /* This allows horizontal scrolling */
+}
+
+
 th,
 td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
+  min-width: 150px;
+  max-width: 550px;
 }
 
 th {
@@ -288,4 +297,17 @@ tr:hover {
 .end_table_boot{
   border-top: 1px solid rgba(0, 0, 0, 0.2);
   padding: 16px; /* Khoảng đệm */
+}
+.closeButton {
+  /* position: absolute; */
+  top: 10px;
+  right: 10px;
+  border: none;
+  background: transparent;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.content h2 {
+  margin-top: 0;
 }

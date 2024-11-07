@@ -1,7 +1,6 @@
 'use client';
 
 import SignUpCommon from "@/modules/layout/templates/singup";
-import "./styles.css"
 import { UserType } from "@/types/user";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -54,7 +53,7 @@ const ModalUser = ({ isOpen, onClose, id }: ModalProps) => {
 
         } catch (err) {
             console.log(err)
-            toast.error(`${u('singUpFail')}`, {
+            toast.error(id == 0 ? `${u('singUpFail')}` : `${u('updateFail')}`, {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
