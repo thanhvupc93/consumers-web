@@ -1,5 +1,5 @@
-import NavLeftMenuMobile from "./nav-menu-lef-mobile";
-import NavRighttMenuMobile from "./index-mobile";
+import NavLeftMenuMobile from "./lef-mobile";
+import NavRighttMenuMobile from "./right-mobile";
 
 export default function NavMenuMobile() {
     return (
@@ -11,7 +11,7 @@ export default function NavMenuMobile() {
                 <NavRighttMenuMobile></NavRighttMenuMobile>
             </div>
         </div>
-        
+
 
     );
 };

@@ -1,6 +1,6 @@
-import { CSS_INPUT_DEFAULT } from "@/utils/constants_css";
+import { CSS_INPUT_DEFAULT } from "@/constants/css";
 import { checkValidateEmail, checkValidateFullName, checkValidatePhone } from "@/utils/validate";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useUser } from "@/hook/context/userContext";
 import { OrderType } from "@/types/order";

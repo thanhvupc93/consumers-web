@@ -1,11 +1,11 @@
 'use client'
-import InputSearch from "../input-search";
+import InputProductSearch from "../input-product-search";
 import CustomErrorPage from "@/app/[locale]/error";
 import { CategoryType } from "@/types/category";
 import Loading from "@/app/[locale]/loading";
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { ProductSearchType } from "@/types/products_search";
-import { DEFAULT_LABEL_TEXT_ORANGE_COLOR_CSS_CLICK, DEFAULT_LABEL_TEXT_ORANGE_COLOR_CSS_DEFAULT } from "@/utils/constants_css";
+import { DEFAULT_LABEL_TEXT_ORANGE_COLOR_CSS_CLICK, DEFAULT_LABEL_TEXT_ORANGE_COLOR_CSS_DEFAULT } from "@/constants/css";
 import { useEffect, useState } from "react";
 import { fetchAPI } from "@/utils/fetch";
 import { ResponseCustom } from "@/types/response";
@@ -85,7 +85,7 @@ export default function Aside({ changeProductSearch }: AsideProps) {
     if (data) {
         return <>
             <div>
-                <InputSearch text={s('searchForProducts')} changeProductSearch={changeProductSearch} ></InputSearch>
+                <InputProductSearch text={s('searchForProducts')} changeProductSearch={changeProductSearch} />
             </div>
             <div id="default-sidebar" className="w-64 z-11 h-screen" aria-label="Sidebar">
                 <div className="pt-8">

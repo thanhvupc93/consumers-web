@@ -9,7 +9,7 @@ import ProductInfo from "@/modules/common/components/product-info";
 import { BreadcrumbsType } from "@/types/breadcrumbs";
 import { InventoryType } from "@/types/inventory";
 import { ProductType } from "@/types/product";
-import { BUTTON_BS_COLOR_CSS_ACTIVE, BUTTON_BS_COLOR_CSS_DEFAULT } from "@/utils/constants_css";
+import { BUTTON_BS_COLOR_CSS_ACTIVE, BUTTON_BS_COLOR_CSS_DEFAULT } from "@/constants/css";
 import { useCallback, useEffect, useState } from "react";
 import { allTags } from "../../../../../public/data/productTag";
 import { useCart } from "@/hook/context/cartContext";

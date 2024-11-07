@@ -1,5 +1,5 @@
 import { UserType } from "@/types/user";
-import { CSS_INPUT_DEFAULT } from "@/utils/constants_css";
+import { CSS_INPUT_DEFAULT } from "@/constants/css";
 import { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import { useTranslations } from "next-intl";

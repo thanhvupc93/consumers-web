@@ -1,15 +1,19 @@
 'use client'
+import { ProductSearchType } from '@/types/products_search';
 import { useDebouncedCallback } from 'use-debounce';
 
 type InputSearchProps = {
     text: string,
-    changeSearch?: (data: string) => void;
+    changeProductSearch?: (data: ProductSearchType) => void;
 }
-export default function InputSearch({ text, changeSearch }: InputSearchProps) {
+export default function InputProductSearch({ text, changeProductSearch }: InputSearchProps) {
     const debounced = useDebouncedCallback(
         (value) => {
-            if (changeSearch) {
-                changeSearch(value);
+            const data: ProductSearchType = {
+                key_word: value
+            }
+            if (changeProductSearch) {
+                changeProductSearch(data);
             }
         },
         // delay in ms

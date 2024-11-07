@@ -1,4 +1,4 @@
-import { BUTTON_BS_COLOR_CSS_DEFAULT } from "@/utils/constants_css";
+import { BUTTON_BS_COLOR_CSS_DEFAULT } from "@/constants/css";
 
 
 interface InputQuanlityProps {

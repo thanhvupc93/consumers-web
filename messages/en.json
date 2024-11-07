@@ -76,6 +76,46 @@
   "Page": {
     "notFound": "Page Not Found",
     "backToHome": "Back To Home"
+  },
+  "Menu": {
+    "home": "Home",
+    "dog": "Dog",
+    "cat": "Cat",
+    "food": "Food",
+    "clothing": "Clothing",
+    "branch": "Branch ",
+    "nuts": "Nuts",
+    "wet": "Wet",
+    "snack": "Snack",
+    "toy": "Toy",
+    "product": "Product",
+    "order": "Order",
+    "user": "User"
+  },
+  "Admin_User": {
+    "needAdmin": "You Need Login Admin Account",
+    "deleteAccount": "You Sure Want Delete Account",
+    "fullName": "Full  Name",
+    "email": "Email Address",
+    "phone": " Phone",
+    "userName": "User Name",
+    "address": "Address",
+    "role": "Roles",
+    "addNew": "New",
+    "action": "Action",
+    "addNewUser": "New User",
+    "editNewUser": "Edit User",
+    "choseRoles": "Add Role",
+    "accountExist": "Account is exists",
+    "createdSuccess": "Created Account Success",
+    "updateSuccess": "Update Account Success",
+    "singUpFail": "SingUp Fail",
+    "delete": "Delete",
+    "deleteSuccess": "Delete Account Success",
+    "cancel": "Cancel",
+    "isActive": "Active",
+    "yes": "Yes",
+    "no": "No"
   }
 
 }

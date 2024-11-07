@@ -11,5 +11,8 @@ export type PagingDto = {
 export type ResponseCustom ={
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data: any;
-    paging: PagingDto| null;
+    paging: PagingDto | null;
+    status: number;
+    statusText: string;
+
 }

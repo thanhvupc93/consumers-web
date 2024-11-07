@@ -76,5 +76,45 @@
   "Page": {
     "notFound": "Xin lỗi, trang bạn tìm kiếm không tồn tại.",
     "backToHome": "Quay về trang chính"
+  },
+  "Menu": {
+    "home": "Trang Chủ",
+    "dog": "Chó",
+    "cat": "Mèo",
+    "food": "Thức Ăn",
+    "clothing": "Quần Áo",
+    "branch": "Thương Hiệu ",
+    "nuts": "Hạt",
+    "wet": "Đồ Ướt",
+    "snack": "Ăn Vặt",
+    "toy": "Đồ chơi",
+    "product": "Sản Phẩm",
+    "order": "Đơn Hàng",
+    "user": "Người Dùng"
+  },
+   "Admin_User": {
+    "needAdmin": "Bạn Cần Đăng Nhập Bằng Tài Khoảng Admin",
+    "deleteAccount": "Bạn Chắn Chắn Muốn Xóa Tài Khoảng",
+    "fullName": "Tên",
+    "email": "Thư điện  tử",
+    "phone":"Số Điện Thoại",
+    "userName": "Tên Đăng Nhập",
+    "address": "Địa Chỉ",
+    "role": "Quyền",
+    "addNew": "Thêm",
+    "action": "Hành Động",
+    "addNewUser": "Thêm Mới Người Dùng",
+    "editNewUser": "Chỉnh Sửa Người Dùng",
+    "choseRoles": "Phân Quyền",
+    "accountExist": "Tài Khoảng Đã Tồn Tại",
+    "createdSuccess": "Tạo Tài Khoảng Thành Công",
+     "updateSuccess": "Cập Nhật Tài Khoảng Thành Công",
+    "singUpFail": "Tạo Tài Khoảng Thất Bại",
+    "delete": "Xóa",
+    "deleteSuccess": "Xóa Tài Khoảng Thành Công",
+    "cancel": "Hủy",
+    "isActive": "Hoạt Động",
+    "yes": "Có",
+    "no": "Không"
   }
 }

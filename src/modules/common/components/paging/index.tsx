@@ -1,5 +1,5 @@
 import { PagingDto } from "@/types/response";
-import { PAGING_LABEL_TEXT_ORANGE_COLOR_CSS_CLICK, PAGING_LABEL_TEXT_ORANGE_COLOR_CSS_DEFAULT } from "@/utils/constants_css";
+import { PAGING_LABEL_TEXT_ORANGE_COLOR_CSS_CLICK, PAGING_LABEL_TEXT_ORANGE_COLOR_CSS_DEFAULT } from "@/constants/css";
 
 interface PagingProps {
     paging: PagingDto;

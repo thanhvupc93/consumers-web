@@ -1,6 +1,6 @@
 'use client'
-import SwitcherLanguage from "../switcher-language/switcher";
-import AccountWishListCart from "./account-cart-wishlist";
+import SwitcherLanguage from "../switcher-language";
+import AccountWishListCart from "../account-cart-wishlist";
 export default function NavLeftMenuMobile() {
     return (
         <div className=' flex w-[100%]'>

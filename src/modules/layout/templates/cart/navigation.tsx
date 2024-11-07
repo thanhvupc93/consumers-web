@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { CartData } from "./item";
 import { useCart } from "@/hook/context/cartContext";
 import { useTranslations } from "next-intl";
-import { BUTTON_BS_COLOR_CSS_DEFAULT } from "@/utils/constants_css";
+import { BUTTON_BS_COLOR_CSS_DEFAULT } from "@/constants/css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { Bounce, toast } from 'react-toastify';

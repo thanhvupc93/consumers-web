@@ -1,6 +1,6 @@
 import { CartItemType } from "@/types/cartItem";
 import formatCurrency from "@/utils/format";
-import { useLocale, useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 import Image from "next/image";
 
 type OrderItemPros = {
@@ -8,7 +8,6 @@ type OrderItemPros = {
 
 }
 export default function OrderItem({ data }: OrderItemPros) {
-    const o = useTranslations('Order');
     const locale = useLocale();
     return <>
         <li key={data.id}>

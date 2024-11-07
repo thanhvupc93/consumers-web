@@ -9,7 +9,7 @@ import {
 import { AddressType } from "@/types/address";
 import { useTranslations } from "next-intl";
 import { checkValidateAddress } from "@/utils/validate";
-import { CSS_INPUT_DEFAULT } from "@/utils/constants_css";
+import { CSS_INPUT_DEFAULT } from "@/constants/css";
 
 interface MapProps {
     changeAddress: (data: AddressType) => void;

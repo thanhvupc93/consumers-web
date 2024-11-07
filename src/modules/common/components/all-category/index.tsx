@@ -6,7 +6,7 @@ import ProductsCarouselProps from "@/modules/common/components/products-carousel
 import { ProductType } from "@/types/product";
 import BTShowNow from "../button-shop-now";
 import { useAllProductHomeContex } from "@/hook/context/homeContext";
-import { TAG_ACTIVI } from "@/utils/constants_css";
+import { TAG_ACTIVI } from "@/constants/css";
 import { useTranslations } from 'next-intl';
 
 type AllCategoryProps = {

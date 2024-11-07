@@ -12,7 +12,7 @@ const BUTTON_BS_COLOR_CSS_DEFAULT = ' uppercase rounded-md border-neutral-100  '
 const TAG_ACTIVI = 'border-b-2 border-b-[var(--text-orange-color)] border-solid';
 const CSS_INPUT_DEFAULT = 'w-[100%] text-left pl-5 pt-5 pb-5'
 
-export { 
+export {
     LABEL_TEXT_5XL_XL,
     LABEL_TEXT_XL_SM,
     LABEL_TEXT_ORANGE_COLOR_CSS_CLICK,

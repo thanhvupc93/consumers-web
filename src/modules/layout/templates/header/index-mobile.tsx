@@ -1,6 +1,6 @@
 'use client'
 import Image from "next/image";
-import NavMenuMobile from "../menu/nav-menu-mobile";
+import NavMenuMobile from "../nav-menu-mobile";
 import { useEffect, useState } from "react";
 
 export default function NavMobile() {

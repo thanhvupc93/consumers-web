@@ -6,14 +6,16 @@ import SignUpCommon from "@/modules/layout/templates/singup";
 import { BreadcrumbsType } from "@/types/breadcrumbs";
 import { IngredientType } from "@/types/ingredient";
 import { UserType } from "@/types/user";
-import { TAG_ACTIVI } from "@/utils/constants_css";
+import { TAG_ACTIVI } from "@/constants/css";
 import { AnimatePresence, motion } from "framer-motion";
-import { useRouter } from 'next/navigation';
 import { useState } from "react";
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { signIn } from "next-auth/react";
+import { jwtDecode } from "jwt-decode";
+import { useTranslations } from "next-intl";
+
 const breadcrumbsPropsData: BreadcrumbsType[] = [
     {
         name: "Account",
@@ -31,12 +33,10 @@ export default function Login() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const [selectedTab, setSelectedTab] = useState(allIngredients[0]);
-
+    const u = useTranslations('Admin_User');
     function handleSelectedTab(item: IngredientType) {
         setSelectedTab(item);
     }
-
-
 
     const handleSubmitLogin = async (formData: UserType) => {
         try {
@@ -53,22 +53,21 @@ export default function Login() {
             }
             const result = await response.json();
             localStorage.setItem('access_token', result.access_token);
+            const decode: { id: number, userName: string } = jwtDecode(result.access_token);
             dispatchUser({ type: 'LOGIN', payload: { token: result.access_token } });
             const callbackUrl = searchParams.get('callbackUrl');
-            console.log(callbackUrl);
             if (callbackUrl) {
                 await signIn('credentials', {
-                    username: formData.userName,
-                    fullName: formData.fullName,
+                    id: decode.id + "",
+                    username: decode.userName,
                     redirect: true,
                     callbackUrl: callbackUrl,
                 })
             } else {
                 await signIn('credentials', {
-                    username: formData.userName,
-                    fullName: formData.fullName,
+                    id: decode.id + "",
+                    username: decode.userName,
                     redirect: false
-
                 })
                 router.replace('/')
             }
@@ -103,11 +102,24 @@ export default function Login() {
                 throw new Error('Network response was not ok');
             }
             const result = await response.json();
+            if (result.message) {
+                return toast.error(`${u('accountExist')}`, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                });
+            }
             dispatchUser({ type: 'LOGIN', payload: { token: result.access_token } });
             router.replace('/')
         } catch (err) {
             console.log(err)
-            toast.error('SingUp Fail', {
+            toast.error(`${u('singUpFail')}`, {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -133,8 +145,8 @@ export default function Login() {
             draggable
             pauseOnHover
             theme="light"
-        ></ToastContainer>
-        <HeroContent data={breadcrumbsPropsData}></HeroContent>
+        />
+        <HeroContent data={breadcrumbsPropsData} />
 
         <div className="pt-20"></div>
         <main>
@@ -173,7 +185,7 @@ export default function Login() {
                         transition={{ duration: 0.2 }}
                     >
 
-                        {selectedTab.icon == 'login' ? <LoginCommon onSubmit={handleSubmitLogin}></LoginCommon> : <SignUpCommon onSubmit={handleSubmitSingUp}></SignUpCommon>}
+                        {selectedTab.icon == 'login' ? <LoginCommon onSubmit={handleSubmitLogin} /> : <SignUpCommon onSubmit={handleSubmitSingUp} />}
                     </motion.div>
                 </AnimatePresence>
             </div>

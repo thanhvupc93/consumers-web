@@ -3,7 +3,7 @@ import Map from '@/modules/common/components/google-map'
 import CheckOutOrderSummary from '@/modules/layout/templates/checkout/order-summary';
 import CheckOutUserInfo from '@/modules/layout/templates/checkout/user-info';
 import { AddressType } from '@/types/address';
-import { BUTTON_BS_COLOR_CSS_DEFAULT } from '@/utils/constants_css';
+import { BUTTON_BS_COLOR_CSS_DEFAULT } from '@/constants/css';
 import { useCallback, useState } from 'react';
 import { useTranslations } from "next-intl";
 import { OrderType } from '@/types/order';
@@ -76,7 +76,6 @@ export default function Checkout() {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                const result = await response.json();
                 dispatch({
                     type: 'CLEAR_CART', payload: {
                         data: {

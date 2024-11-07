@@ -1,3 +1,6 @@
+import { USER_ROLE_ADMIN } from "@/constants/data";
+import { RoleType } from "@/types/role";
+
 export const checkValidateEmail = (email: string) => {
     const expression: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     return expression.test(email);
@@ -32,4 +35,9 @@ export const checkValidateFullName = (fullName: string) => {
 
 export const checkValidateAddress = (address: string) => {
     return address.length < 12;
+};
+
+export const checkIsAdmin = (roles: RoleType[]): boolean => {
+    const isAdmin = roles?.findIndex(role => role.name === USER_ROLE_ADMIN);
+    return isAdmin < 0 ? true : false;
 };

@@ -2,7 +2,7 @@ import * as React from "react";
 import { motion } from "framer-motion";
 import { CartItemType } from "@/types/cartItem";
 import Image from "next/image";
-import { BUTTON_BS_COLOR_CSS_DEFAULT } from "@/utils/constants_css";
+import { BUTTON_BS_COLOR_CSS_DEFAULT } from "@/constants/css";
 import { Bounce, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useCart } from "@/hook/context/cartContext";

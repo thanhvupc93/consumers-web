@@ -6,15 +6,16 @@ const auth: AuthOptions = {
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        username: {type: 'text'},
-        fullName: {type: 'text'}
+        id: { type: 'text' },
+        username: { type: 'text' }
+
       },
       authorize(credentials) {
         if (
-          credentials?.username  &&
-          credentials.fullName 
+          credentials?.id &&
+          credentials.username 
         ) {
-          return {id: credentials?.username, name: credentials?.fullName};
+          return { id: credentials?.id, name: credentials?.username };
         }
         return null;
       }

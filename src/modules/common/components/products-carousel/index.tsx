@@ -30,7 +30,7 @@ export default function ProductsCarousel({ listsData, numberItem }: ProductsCaro
                                     <a className="text-[var(--text-orange-color)] lg:text-xl  text-sm">{formatCurrency(item.defaultPrice, locale) ? formatCurrency(item.defaultPrice, locale) : formatCurrency(0, locale)}</a>
                                 </div>
                                 <div className="flex font-[family-name:var(--font-geist-chilanka)] ">
-                                    <div className="w-[60%] pr-4">
+                                    <div className="lg:w-[80%] w-[60%] pr-4">
                                         <BTAddCart></BTAddCart>
                                     </div>
                                     <div className="w-[25%] ">

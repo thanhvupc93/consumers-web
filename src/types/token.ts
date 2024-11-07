@@ -1,3 +1,5 @@
+import { RoleType } from "./role";
+
 export type TokenType = {
     userName: string;
     fullName: string;
@@ -6,4 +8,5 @@ export type TokenType = {
     phone: string;
     exp: number;
     iat: number;
+    roles: RoleType[];
 }

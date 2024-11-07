@@ -4,12 +4,19 @@ import { createContext, useContext, useEffect, useReducer } from "react";
 import jwt from 'jsonwebtoken';
 import { TokenType } from "@/types/token";
 import { signOut } from 'next-auth/react';
+import { RoleType } from "@/types/role";
 
 interface UserAction {
     type: 'LOGIN' | 'LOGUOT';
     payload?: {
         token: string
     };
+}
+const role: RoleType = {
+    id: 0,
+    name: '',
+    description: '',
+    isActive: true
 }
 
 const initialState: TokenType = {
@@ -19,7 +26,8 @@ const initialState: TokenType = {
     email: '',
     phone: '',
     exp: 0,
-    iat: 0
+    iat: 0,
+    roles: [role]
 };
 
 const UserContext = createContext<{
@@ -43,7 +51,8 @@ const userReducer = (state: TokenType, action: UserAction): TokenType => {
                         email: decoded.email,
                         phone: decoded.phone,
                         exp: decoded.exp || 0,
-                        iat: decoded.iat || 0
+                        iat: decoded.iat || 0,
+                        roles: decoded.roles || [role]
                     }
                     return user;
                 }
@@ -66,8 +75,8 @@ type Props = {
 };
 
 export const UserProvider = ({ children }: Props) => {
-    const [state, dispatch] = useReducer(userReducer, initialState, (initial) => {
-        const storedCart = localStorage.getItem('user') || "";
+    const [state, dispatch] = useReducer(userReducer, initialState, (initial) => {  
+        const storedCart = localStorage.getItem('user');
         return storedCart ? JSON.parse(storedCart) : initial;
     });
 

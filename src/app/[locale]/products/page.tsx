@@ -80,9 +80,7 @@ export default function ProductList() {
   if (error) return <CustomErrorPage message='Loading fail.....' />
   if (products && paging && !error) {
     return <>
-
       <ToastContainer></ToastContainer>
-
       <ProductsContext.Provider value={productSearch}>
         <HeroContent data={breadcrumbsPropsData}></HeroContent>
         <div className="pt-10"></div>
@@ -102,7 +100,7 @@ export default function ProductList() {
                   </span>
                 </div>
                 <div className="w-[50%] text-right">
-                  <span className='font-normal text-xl  font-[family-name:var(--font-geist-chilanka)] '>
+                  <span className='font-normal text-xl  font-[family-name:var(--font-geist-chilanka)]'>
                     {p('defaultSorting')}
                   </span>
                 </div>

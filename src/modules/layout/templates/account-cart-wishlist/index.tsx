@@ -65,11 +65,9 @@ export default function AccountWishListCart() {
     }
     function handleClickLogout() {
         clearContex();
-        // router.push('/') 
     }
     function handleClickCart() {
         if (isTokenExpired(state.exp)) {
-            // clearContex();
             router.replace('/login')
         } else {
             setOpenCart();

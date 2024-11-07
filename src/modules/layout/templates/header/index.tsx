@@ -1,7 +1,7 @@
 'use client'
 import Image from "next/image";
 import NavMenu from "@/modules/layout/templates/menu/index"
-import InputSearch from "@/modules/common/components/input-search";
+import InputSearch from "@/modules/common/components/input-product-search";
 import Logo from "@/../../public/images/logo.jpg";
 import { useTranslations } from 'next-intl';
 import { useUser } from "@/hook/context/userContext";

@@ -7,6 +7,7 @@ import { SIDENAV_ITEMS } from '@/types/constants';
 import { SideNavItem } from '@/types';
 import { Icon } from '@iconify/react';
 import { motion, useCycle } from 'framer-motion';
+import { useTranslations } from "next-intl";
 
 type MenuItemWithSubMenuProps = {
     item: SideNavItem;
@@ -33,13 +34,14 @@ const sidebar = {
 };
 
 const NavRighttMenuMobile = () => {
+    const m = useTranslations('Menu');
     const pathname = usePathname();
     const containerRef = useRef(null);
     const { height } = useDimensions(containerRef);
     const [isOpen, toggleOpen] = useCycle(false, true);
 
     return (
-        
+
         <motion.nav
             initial={false}
             animate={isOpen ? 'open' : 'closed'}
@@ -49,41 +51,41 @@ const NavRighttMenuMobile = () => {
             ref={containerRef}
         >
             <motion.div
-                className="fixed  bg-orange inset-0 right-0 w-full bg-white  z-[2]"
+                className="fixed  bg-backgroud inset-0 right-0 w-full bg-white  z-[2]"
                 variants={sidebar}
             />
             <MenuToggle toggle={toggleOpen} />
             <motion.ul
                 variants={variants}
-                className="fixed grid w-full gap-3 px-10 py-16 max-h-screen overflow-y-auto z-[3]"
+                className="fixed grid w-full start-0 gap-3 px-10 py-16 max-h-screen overflow-y-auto z-[3]"
             >
                 {SIDENAV_ITEMS.map((item, idx) => {
                     const isLastItem = idx === SIDENAV_ITEMS.length - 1; // Check if it's the last item
 
                     return (
                         <div key={idx}>
-                                {item.submenu ? (
-                                    <MenuItemWithSubMenu item={item} toggleOpen={toggleOpen} />
-                                ) : (
-                                    <MenuItem>
-                                        <Link
-                                            href={item.path}
-                                            onClick={() => toggleOpen()}
-                                            className={`flex w-full text-2xl z[4] ${item.path === pathname ? 'font-bold' : ''}`}
-                                        >
-                                            {item.title}
-                                        </Link>
-                                    </MenuItem>
-                                )}
+                            {item.submenu ? (
+                                <MenuItemWithSubMenu item={item} toggleOpen={toggleOpen} />
+                            ) : (
+                                <MenuItem>
+                                    <Link
+                                        href={item.path}
+                                        onClick={() => toggleOpen()}
+                                        className={`flex w-full text-2xl z[4] ${item.path === pathname ? 'font-bold' : ''}`}
+                                    >
+                                        {m(item.title)}
+                                    </Link>
+                                </MenuItem>
+                            )}
 
-                                {!isLastItem && (
-                                    <MenuItem className="my-3 h-px w-full bg-gray-300" />
-                                )}
-                            </div>
+                            {!isLastItem && (
+                                <MenuItem className="my-3 h-px w-full bg-gray-300" />
+                            )}
+                        </div>
                     );
                 })}
             </motion.ul>
-            
+
         </motion.nav>
     );
 };
@@ -117,7 +119,7 @@ const MenuToggle = ({ toggle }: { toggle: any }) => (
                         open: { d: 'M 3 2.5 L 17 16.346' },
                     }}
                 />
-            </svg> 
+            </svg>
         </div>
 
     </button>
@@ -154,7 +156,7 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
 }) => {
     const pathname = usePathname();
     const [subMenuOpen, setSubMenuOpen] = useState(false);
-
+    const m = useTranslations('Menu');
     return (
         <>
             <MenuItem>
@@ -166,7 +168,7 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
                         <span
                             className={`${pathname.includes(item.path) ? 'font-bold' : ''}`}
                         >
-                            {item.title}
+                            {m(item.title)}
                         </span>
                         <div className={`${subMenuOpen && 'rotate-180'}`}>
                             <Icon icon="lucide:chevron-down" width="24" height="24" />
@@ -186,7 +188,7 @@ const MenuItemWithSubMenu: React.FC<MenuItemWithSubMenuProps> = ({
                                         className={` ${subItem.path === pathname ? 'font-bold' : ''
                                             }`}
                                     >
-                                        {subItem.title}
+                                        {m(subItem.title)}
                                     </Link>
                                 </MenuItem>
                             );
