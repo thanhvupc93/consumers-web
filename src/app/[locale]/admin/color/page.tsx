@@ -16,7 +16,7 @@ import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import ModalCOnfirmDelete from "@/modules/common/components/popup-confirm-delete";
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import RadioTrueFalse from "@/modules/common/components/radio-true-false";
-import ModalColor from "@/modules/common/components/popup-color";
+import ModalColor from "@/modules/layout/templates/popup-color";
 import { ColorType } from "@/types/color";
 
 export default function Account() {
@@ -159,7 +159,7 @@ export default function Account() {
                             </thead>
                             <tbody>
                                 {colors?.map((item: ColorType) => (
-                                    <><tr>
+                                    <tr key={item.id}>
                                         <td>{item.title}</td>
                                         <td>{item.value}</td>
                                         <td>{item.isActive ? u('yes') : u('no')}</td>
@@ -167,7 +167,7 @@ export default function Account() {
                                             <div className="w-[20%]" onClick={() => handleClickEdit(item.id)} ><FontAwesomeIcon icon={faPenToSquare} /></div>
                                             <div className="w-[20%]" onClick={() => handleClickDelete(item.id, item.value)}><FontAwesomeIcon icon={faTrash} /></div>
                                         </td>
-                                    </tr></>
+                                    </tr>
                                 ))}
                             </tbody>
                         </table>

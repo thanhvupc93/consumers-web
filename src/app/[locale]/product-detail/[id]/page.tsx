@@ -5,7 +5,6 @@ import BTAddCart from "@/modules/common/components/button-add-cart";
 import BTAddWishlist from "@/modules/common/components/button-add-wishlist";
 import HeroContent from "@/modules/common/components/hero-content";
 import SliderThumbnails from "@/modules/common/components/image-thumbnails";
-import ProductInfo from "@/modules/common/components/product-info";
 import { BreadcrumbsType } from "@/types/breadcrumbs";
 import { InventoryType } from "@/types/inventory";
 import { ProductType } from "@/types/product";
@@ -21,9 +20,10 @@ import InputQuanlity from "@/modules/common/components/input-quanlity";
 import { useTranslations, useLocale } from "next-intl";
 import { CartItemType } from "@/types/cartItem";
 import formatCurrency from "@/utils/format";
+import ProductInfo from "@/modules/layout/templates/product-info";
 const breadcrumbsPropsData: BreadcrumbsType[] = [
     {
-        name: 'productList',
+        name: 'productList',    
         url: '/products'
     }
 ]
@@ -94,10 +94,10 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                     const data: ProductType = response.data;
                     let colorId = 0
                     let sizeId = 0
-                    if (data.colors.length > 0) {
+                    if (data.colors) {
                         colorId = data.colors[0].id;
                     }
-                    if (data.sizes.length > 0) {
+                    if (data.sizes) {
                         sizeId = data.sizes[0].id;
                     }
 
@@ -112,7 +112,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                         }
                     );
                     setProductDetailState(data);
-                    setDataInventoryState(data.inventories, sizeId, colorId);
+                    setDataInventoryState(data.inventories || [], sizeId, colorId);
                     setLoading(false);
                 }
             } catch (err) {
@@ -299,7 +299,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                         <div className="">
                             <ul className='flex lg:pr-3 pr-1 pb-5 text-black  text-sm  font-[family-name:var(--font-geist-chilanka)] '>
                                 <div className="flex">
-                                    {productDetailtState?.sizes.map((e) => (
+                                    {productDetailtState.sizes?.map((e) => (
                                         <li key={`${e.id}_size`} className="button_silver_hover px-[5px]">
                                             <button id={`${e.id}_size`} className={productState.select_size == e.id ? BUTTON_BS_COLOR_CSS_ACTIVE : BUTTON_BS_COLOR_CSS_DEFAULT}
                                                 onClick={() => handleClick(e.id, `_size`)} >
@@ -343,7 +343,7 @@ export default function ProductDetail({ params }: { params: { id: string } }) {
                             </span>
                             <span className='lg:pr-3 my-auto font-normal text-xl  font-[family-name:var(--font-geist-chilanka)] '>
 
-                                {productDetailtState?.category.title}
+                                {productDetailtState.category?.title}
                             </span>
                         </div>
 

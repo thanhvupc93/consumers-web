@@ -16,30 +16,25 @@ import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import ModalCOnfirmDelete from "@/modules/common/components/popup-confirm-delete";
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import RadioTrueFalse from "@/modules/common/components/radio-true-false";
-import { SizeType } from "@/types/size";
-import ModalSize from "@/modules/layout/templates/popup-size";
+import { ProductType } from "@/types/product";
+import Link from "next/link";
 
 export default function Account() {
     const u = useTranslations('Admin_User');
     const p = useTranslations('Product');
     const [error, setEror] = useState(false);
-    const [sizes, setSizes] = useState<SizeType[]>();
+    const [products, setProducts] = useState<ProductType[]>();
     const [paging, setPaging] = useState<PagingDto>();
     const [selectPaging, setSelectPaging] = useState<number>(1);
     const [userSearch, setUerSearch] = useState<string>();
     const router = useRouter()
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
     const [id, setSelectId] = useState<number>(0);
     const [title, setTitle] = useState<string>("");
     const [selectedValue, setSelectedValue] = useState('true');
 
-    const openModal = () => setIsModalOpen(true);
     const openDeleteModal = () => setIsModalDeleteOpen(true);
-    const closeModal = () => {
-        setIsModalOpen(false);
-        setSelectId(0);
-    }
+
     const closeDeleteModal = () => { setIsModalDeleteOpen(false); setSelectId(0); setTitle("") }
     const { state, dispatch } = useUser();
 
@@ -52,19 +47,19 @@ export default function Account() {
     }, []);
 
     const onDelete = async () => {
-        const response: ResponseCustom = await fetchAPI(`/${process.env.NEXT_PUBLIC_ALL_SIZE_URL}/${id}`, 'DELETE', null);
+        const response: ResponseCustom = await fetchAPI(`/${process.env.NEXT_PUBLIC_ALL_PRODUCT_URL}/${id}`, 'DELETE', null);
         if (response.status === 200) {
-            toast.success(`${p('deleteSizeSuccess')}`, {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
-            });
+            // toast.success(`${p('deleteSizeSuccess')}`, {
+            //     position: "top-right",
+            //     autoClose: 2000,
+            //     hideProgressBar: false,
+            //     closeOnClick: true,
+            //     pauseOnHover: true,
+            //     draggable: true,
+            //     progress: undefined,
+            //     theme: "light",
+            //     transition: Bounce,
+            // });
             setTimeout(() => {
                 closeDeleteModal();
             }, 3000);
@@ -75,10 +70,10 @@ export default function Account() {
         const fetchData = async () => {
             try {
                 const key = `?search=${userSearch}&page=${selectPaging}&active=${selectedValue}`
-                const response: ResponseCustom = await fetchAPI(`/${process.env.NEXT_PUBLIC_ALL_SIZE_URL}/${key}`, 'GET', null);
+                const response: ResponseCustom = await fetchAPI(`/${process.env.NEXT_PUBLIC_ALL_PRODUCT_URL}/${key}`, 'GET', null);
                 if (response.status === 200) {
-                    const data: SizeType[] = response.data;
-                    setSizes(data);
+                    const data: ProductType[] = response.data;
+                    setProducts(data);
                     if (response.paging) {
                         setPaging(response.paging)
                     }
@@ -88,13 +83,13 @@ export default function Account() {
                     router.replace('/login')
                 }
             } catch (err) {
-                setSizes([])
+                setProducts([])
                 console.log(err)
                 setEror(true);
             }
         };
         fetchData();
-    }, [dispatch, router, selectPaging, userSearch, isModalOpen, selectedValue]);
+    }, [dispatch, router, selectPaging, userSearch, selectedValue]);
 
     const changeSearch = useCallback((data: string) => {
         if (data || data == "") {
@@ -105,7 +100,7 @@ export default function Account() {
 
     function handleClickEdit(id: number) {
         setSelectId(id);
-        openModal();
+        window.location.replace('/admin/product-detail/0');
     }
     function handleClickDelete(id: number, title: string) {
         setTitle(title);
@@ -115,9 +110,9 @@ export default function Account() {
     if (checkIsAdmin(state.roles)) {
         return <CustomErrorPage message={u('needAdmin')}></CustomErrorPage>
     } else {
-        if (!sizes) return <Loading></Loading>
+        if (!products) return <Loading></Loading>
         if (error) return <CustomErrorPage message='Loading fail.....' />
-        if (sizes && paging && !error) {
+        if (products && paging && !error) {
             return <>
                 <ToastContainer
                     position="top-right"
@@ -139,33 +134,35 @@ export default function Account() {
                             <RadioTrueFalse selectValue={selectedValue} changeRadio={handleChangeActive}></RadioTrueFalse>
                         </div>
                         <div className=" flex items-center lg:w-[20%] w-[100%] lg:pt-1 pt-3 pb-3 justify-end">
-                            <div className="h-[80%]  w-[50%] flex" onClick={openModal}>
+                            <div className="h-[80%]  w-[50%] flex" onClick={() => handleClickEdit(0)} >
                                 <BTAddNew />
                             </div>
                         </div>
                     </div>
-                    <ModalSize isOpen={isModalOpen} onClose={closeModal} id={id} />
                     <ModalCOnfirmDelete isOpen={isModalDeleteOpen} onClose={closeDeleteModal} onDelete={onDelete} message={'deleteAccount'} name={title} />
                     <div className="table-container">
                         <table className='font-normal text-xl  font-[family-name:var(--font-geist-chilanka)] '>
                             <thead>
                                 <tr >
                                     <th>{p('title')}</th>
-                                    <th>{p('value')}</th>
+                                    <th>{p('type')}</th>
+                                    <th>{p('defaultPrice')}</th>
                                     <th>{u('isActive')}</th>
                                     <th>{u('action')}</th>
+
                                 </tr>
                             </thead>
                             <tbody>
-                                {sizes?.map((item: SizeType) => (
+                                {products?.map((item: ProductType) => (
                                     <tr key={item.id}>
                                         <td>{item.title}</td>
-                                        <td>{item.value}</td>
-
+                                        <td>{item.type}</td>
+                                        <td>{item.defaultPrice}</td>
                                         <td>{item.isActive ? u('yes') : u('no')}</td>
                                         <td className="flex items-center justify-center">
-                                            <div className="w-[20%]" onClick={() => handleClickEdit(item.id)} ><FontAwesomeIcon icon={faPenToSquare} /></div>
-                                            <div className="w-[20%]" onClick={() => handleClickDelete(item.id, item.value)}><FontAwesomeIcon icon={faTrash} /></div>
+                                            <div className="w-[20%]" >
+                                                <Link href={`/admin/product-detail/${item.id}`}><FontAwesomeIcon icon={faPenToSquare} /></Link></div>
+                                            <div className="w-[20%]" onClick={() => handleClickDelete(item.id, item.title)}><FontAwesomeIcon icon={faTrash} /></div>
                                         </td>
                                     </tr>
                                 ))}
@@ -175,7 +172,7 @@ export default function Account() {
                     <div className="flex pt-5">
                     </div>
                     <Paging paging={paging} selectPaging={selectPaging} changeSelecePagePaging={changeSelecePagePaging}></Paging>
-                </main>
+                </main >
             </>
         }
     }

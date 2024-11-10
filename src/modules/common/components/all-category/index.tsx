@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { IngredientType } from "@/types/ingredient";
-import ProductsCarouselProps from "@/modules/common/components/products-carousel/index";
+import ProductsCarouselProps from "@/modules/layout/templates/products-carousel/index";
 import { ProductType } from "@/types/product";
 import BTShowNow from "../button-shop-now";
 import { useAllProductHomeContex } from "@/hook/context/homeContext";

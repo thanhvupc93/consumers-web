@@ -12,7 +12,7 @@ export default function Paging({ paging, changeSelecePagePaging, selectPaging }:
     const p = useTranslations('Paging');
     const userItems = [];
     for (let i = 0; i < paging.pageCount; i++) {
-        userItems.push(<span id={`paging-${i}`} onClick={() => changeSelecePagePaging(i)} className={selectPaging === i + 1 ? PAGING_LABEL_TEXT_ORANGE_COLOR_CSS_CLICK : PAGING_LABEL_TEXT_ORANGE_COLOR_CSS_DEFAULT} >
+        userItems.push(<span key={`paging-${i}`} id={`paging-${i}`} onClick={() => changeSelecePagePaging(i)} className={selectPaging === i + 1 ? PAGING_LABEL_TEXT_ORANGE_COLOR_CSS_CLICK : PAGING_LABEL_TEXT_ORANGE_COLOR_CSS_DEFAULT} >
             {Number(i) + 1}
         </span>);
     }

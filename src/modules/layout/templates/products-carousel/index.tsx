@@ -1,7 +1,7 @@
 import { ProductType } from "@/types/product";
 import Image from "next/image";
-import BTAddCart from "../button-add-cart";
-import BTAddWishlist from "../button-add-wishlist";
+import BTAddCart from "../../../common/components/button-add-cart";
+import BTAddWishlist from "../../../common/components/button-add-wishlist";
 import formatCurrency from "@/utils/format";
 import { useLocale } from "next-intl";
 

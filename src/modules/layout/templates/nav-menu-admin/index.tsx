@@ -28,7 +28,7 @@ export default function NavCenterMenuAdmin() {
                     <Link href="/"> {m('home')} </Link>
                 </ol>
                 <ol className={cssMenu}>
-                    <Link href="/"> {m('product')} </Link>
+                    <Link href="/admin/product"> {m('product')} </Link>
                 </ol>
                 <ol className={cssMenu}>
                     <Link href="/"> {m('order')} </Link>

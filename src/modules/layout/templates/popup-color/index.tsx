@@ -8,7 +8,7 @@ import { fetchAPI } from "@/utils/fetch";
 import { ResponseCustom } from "@/types/response";
 import { CSS_INPUT_DEFAULT } from "@/constants/css";
 import { useCallback, useEffect, useState } from "react";
-import RadioTrueFalse from "../radio-true-false";
+import RadioTrueFalse from "../../../common/components/radio-true-false";
 import { ColorType } from "@/types/color";
 
 type ModalProps = {

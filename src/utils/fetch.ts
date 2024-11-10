@@ -2,6 +2,7 @@ import { FetchType } from "@/types/fetchType";
 import { ResponseCustom } from "@/types/response";
 
 export const fetchAPI = async (url: string, method: string, body: string | null) => {
+
     const token = localStorage.getItem('access_token');
     const option:FetchType = {
         method,
@@ -24,6 +25,7 @@ export const fetchAPI = async (url: string, method: string, body: string | null)
             data: undefined,
             paging: null
         }
+        window.location.replace('/login')
         return data;
     }
     const result = await response.json();   

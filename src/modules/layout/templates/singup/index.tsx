@@ -1,7 +1,7 @@
 import { UserType } from "@/types/user";
 import { CSS_INPUT_DEFAULT } from "@/constants/css";
 import { checkValidateEmail, checkValidatePassword, checkValidatePhone } from "@/utils/validate";
-import { SetStateAction, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import { useTranslations } from "next-intl";
 import { MultiValue } from 'react-select';

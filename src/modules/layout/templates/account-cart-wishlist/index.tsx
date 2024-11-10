@@ -40,11 +40,9 @@ export default function AccountWishListCart() {
                     isDelete: false,
                     quantity: 0,
                     inventories: {
-                        length: 0,
                         id: 0,
                         color: undefined,
                         size: undefined,
-                        value: 0,
                         price: 0,
                         quantity: 0,
                         isActive: false,

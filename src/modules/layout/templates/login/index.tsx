@@ -13,8 +13,10 @@ export default function LoginCommon({ onSubmit }: LoginCommonProps) {
     const [validatePassword, setValidatePassword] = useState<boolean>(false);
 
     const [loginData, setLoginData] = useState<UserType>({
+        id: 0,
         userName: '',
-        password: ''
+        password: '',
+        isActive: false
     });
 
     const onChangeDataLogin = (

@@ -9,7 +9,7 @@ import { ResponseCustom } from "@/types/response";
 import { CSS_INPUT_DEFAULT } from "@/constants/css";
 import { SizeType } from "@/types/size";
 import { useCallback, useEffect, useState } from "react";
-import RadioTrueFalse from "../radio-true-false";
+import RadioTrueFalse from "@/modules/common/components/radio-true-false";
 
 type ModalProps = {
     isOpen: boolean;

@@ -1,7 +1,7 @@
 'use client'
 import Aside from "@/modules/common/components/aside";
 import HeroContent from "@/modules/common/components/hero-content";
-import ProductsCarouselProps from "@/modules/common/components/products-carousel/index";
+import ProductsCarouselProps from "@/modules/layout/templates/products-carousel/index";
 import { BreadcrumbsType } from "@/types/breadcrumbs";
 import { ProductsContext } from "@/hook/context/productsContext";
 import { ProductSearchType } from "@/types/products_search";

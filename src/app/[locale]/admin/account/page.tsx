@@ -12,7 +12,7 @@ import CustomErrorPage from "../../error";
 import Paging from "@/modules/common/components/paging";
 import InputSearch from "@/modules/common/components/input-search";
 import BTAddNew from "@/modules/common/components/button-add-new";
-import ModalUser from "@/modules/common/components/popup-user";
+import ModalUser from "@/modules/layout/templates/popup-user";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { RoleType } from "@/types/role";
@@ -165,9 +165,9 @@ export default function Account() {
                                 <th>{u('action')}</th>
                             </tr>
                         </thead>
-                        <tbody>
+                            <tbody>
                             {users?.map((item: UserType) => (
-                                <><tr>
+                                <tr key={item.id}>
                                     <td>{item.userName}</td>
                                     <td>{item.fullName}</td>
 
@@ -178,7 +178,7 @@ export default function Account() {
                                         <div className="w-[20%]" onClick={() => handleClickEdit(item.id)} ><FontAwesomeIcon icon={faPenToSquare} /></div>
                                         <div className="w-[20%]" onClick={() => handleClickDelete(item.id, item.userName)}><FontAwesomeIcon icon={faTrash} /></div>
                                     </td>
-                                </tr></>
+                                </tr>
                             ))}
                         </tbody>
                     </table>

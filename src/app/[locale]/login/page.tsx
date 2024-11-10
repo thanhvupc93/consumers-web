@@ -15,6 +15,8 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { signIn } from "next-auth/react";
 import { jwtDecode } from "jwt-decode";
 import { useTranslations } from "next-intl";
+import { fetchAPI } from "@/utils/fetch";
+import { ResponseCustom } from "@/types/response";
 
 const breadcrumbsPropsData: BreadcrumbsType[] = [
     {
@@ -40,38 +42,57 @@ export default function Login() {
 
     const handleSubmitLogin = async (formData: UserType) => {
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+            const response: ResponseCustom = await fetchAPI(`${process.env.NEXT_PUBLIC_LOGIN}`, 'POST', JSON.stringify(formData));
+            switch (response.statusText) {
+                case 'account not exist':
+                    toast.error(`${u('accountNotExist')}`, {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        transition: Bounce,
+                    });
+                    break;
+                case 'wrong password':
+                    toast.error(`${u('wrongPassword')}`, {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        transition: Bounce,
+                    });
+                    break;
+                default:
+                    const token = response.statusText;
+                    localStorage.setItem('access_token', token);
+                    const decode: { id: number, userName: string } = jwtDecode(token);
+                    dispatchUser({ type: 'LOGIN', payload: { token: token } });
+                    const callbackUrl = searchParams.get('callbackUrl');
+                    if (callbackUrl) {
+                        await signIn('credentials', {
+                            id: decode.id + "",
+                            username: decode.userName,
+                            redirect: true,
+                            callbackUrl: callbackUrl,
+                        })
+                    } else {
+                        await signIn('credentials', {
+                            id: decode.id + "",
+                            username: decode.userName,
+                            redirect: false
+                        })
+                        router.replace('/')
+                    }
+                    break;
             }
-            const result = await response.json();
-            localStorage.setItem('access_token', result.access_token);
-            const decode: { id: number, userName: string } = jwtDecode(result.access_token);
-            dispatchUser({ type: 'LOGIN', payload: { token: result.access_token } });
-            const callbackUrl = searchParams.get('callbackUrl');
-            if (callbackUrl) {
-                await signIn('credentials', {
-                    id: decode.id + "",
-                    username: decode.userName,
-                    redirect: true,
-                    callbackUrl: callbackUrl,
-                })
-            } else {
-                await signIn('credentials', {
-                    id: decode.id + "",
-                    username: decode.userName,
-                    redirect: false
-                })
-                router.replace('/')
-            }
-
         } catch (err) {
             console.log(err)
             toast.error(`${err}`, {
@@ -90,33 +111,27 @@ export default function Login() {
 
     const handleSubmitSingUp = async (formData: UserType) => {
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+            const response: ResponseCustom = await fetchAPI(`/${process.env.NEXT_PUBLIC_ALL_USER_URL}`, 'POST', JSON.stringify(formData));
+            switch (response.statusText) {
+                case 'account exist':
+                    toast.error(`${u('accountExist')}`, {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        transition: Bounce,
+                    });
+                    break;
+
+                default:
+                    dispatchUser({ type: 'LOGIN', payload: { token: response.statusText } });
+                    router.replace('/')
             }
-            const result = await response.json();
-            if (result.message) {
-                return toast.error(`${u('accountExist')}`, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                    transition: Bounce,
-                });
-            }
-            dispatchUser({ type: 'LOGIN', payload: { token: result.access_token } });
-            router.replace('/')
         } catch (err) {
             console.log(err)
             toast.error(`${u('singUpFail')}`, {
@@ -185,7 +200,7 @@ export default function Login() {
                         transition={{ duration: 0.2 }}
                     >
 
-                        {selectedTab.icon == 'login' ? <LoginCommon onSubmit={handleSubmitLogin} /> : <SignUpCommon onSubmit={handleSubmitSingUp} />}
+                        {selectedTab.icon == 'login' ? <LoginCommon onSubmit={handleSubmitLogin} /> : <SignUpCommon id={0} onSubmit={handleSubmitSingUp} />}
                     </motion.div>
                 </AnimatePresence>
             </div>
